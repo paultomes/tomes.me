@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="tomes.me — a simple home page with quick links." />
+  <meta name="description" content="tomes.me" />
   <title>tomes.me</title>
-  <!-- Favicon / App Icons -->
+
+  <!-- Favicon / App Icons (keep if you added these files) -->
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
@@ -14,243 +15,427 @@
 
   <style>
     :root{
-      --bg: #ffffff;
-      --text: #111318;
-      --muted: #5b6472;
-      --card: #f5f7fb;
-      --card2: #eef2f8;
-      --ring: rgba(17,19,24,.10);
-      --shadow: 0 10px 30px rgba(17,19,24,.08);
-      --radius: 18px;
+      --bg: #fbfcff;
+      --ink: #0b1220;
+      --muted: rgba(11,18,32,.62);
+      --glass: rgba(255,255,255,.55);
+      --stroke: rgba(11,18,32,.08);
+      --shadow: 0 18px 55px rgba(11,18,32,.10);
+      --radius: 22px;
+      --oSize: 112px;
+      --holdMs: 1200ms;
     }
 
-    @media (prefers-color-scheme: dark){
-      :root{
-        --bg: #0b0d12;
-        --text: #eef1f6;
-        --muted: #a7b0c0;
-        --card: #121622;
-        --card2: #0f1320;
-        --ring: rgba(238,241,246,.12);
-        --shadow: 0 12px 40px rgba(0,0,0,.45);
-      }
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      :root{ --holdMs: 0ms; }
+      *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
     }
 
-    *{ box-sizing:border-box; }
+    *{ box-sizing: border-box; }
     html,body{ height:100%; }
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: radial-gradient(1200px 600px at 20% 10%, rgba(120,149,255,.12), transparent 60%),
-                  radial-gradient(1000px 600px at 90% 20%, rgba(255,120,180,.10), transparent 55%),
-                  radial-gradient(900px 600px at 50% 90%, rgba(110,255,190,.10), transparent 55%),
-                  var(--bg);
-      color: var(--text);
-      line-height: 1.35;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: var(--ink);
+      background: var(--bg);
+      overflow: hidden;
     }
 
+    /* Ambient background */
+    .ambient{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(900px 560px at 18% 18%, rgba(94,160,255,.18), transparent 62%),
+        radial-gradient(820px 520px at 85% 24%, rgba(255,132,186,.13), transparent 60%),
+        radial-gradient(860px 560px at 55% 82%, rgba(104,255,208,.12), transparent 62%),
+        radial-gradient(900px 700px at 50% 50%, rgba(255,206,102,.10), transparent 70%),
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.88));
+      filter: saturate(110%);
+      transform: translate3d(0,0,0);
+      animation: drift 90s ease-in-out infinite alternate;
+    }
+
+    @keyframes drift{
+      0%   { transform: translate3d(-1.5%, -1%, 0) scale(1.02); filter: blur(0px) saturate(112%); }
+      100% { transform: translate3d( 1.8%,  1.2%, 0) scale(1.03); filter: blur(0.6px) saturate(108%); }
+    }
+
+    /* Very subtle film grain */
+    .grain{
+      position: fixed;
+      inset: -30%;
+      pointer-events: none;
+      opacity: .07;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+      transform: translateZ(0);
+      animation: grainMove 12s linear infinite;
+    }
+    @keyframes grainMove{
+      0% { transform: translate3d(-3%, -2%, 0); }
+      100% { transform: translate3d(3%, 2%, 0); }
+    }
+
+    /* Layout */
     .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 40px 18px 60px;
-    }
-
-    header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap: 14px;
-      min-width: 0;
-    }
-
-    .logo{
-      width: 220px;
-      height: auto;
-      display:block;
-    }
-
-    .tagline{
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 15px;
-      max-width: 62ch;
-    }
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, var(--card), var(--card2));
-      border: 1px solid var(--ring);
-      box-shadow: var(--shadow);
-      white-space: nowrap;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 14px;
-      margin-top: 22px;
-    }
-
-    .card{
-      grid-column: span 6;
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, var(--card), var(--card2));
-      border: 1px solid var(--ring);
-      box-shadow: var(--shadow);
-      padding: 16px 16px 14px;
-      text-decoration:none;
-      color: inherit;
       position: relative;
-      overflow:hidden;
-      transition: transform .15s ease, border-color .15s ease, filter .15s ease;
-      min-height: 92px;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 24px;
     }
 
-    .card:hover{
-      transform: translateY(-2px);
-      border-color: rgba(120,149,255,.35);
-      filter: brightness(1.02);
+    .center{
+      width: min(720px, 94vw);
+      text-align: center;
+      display: grid;
+      place-items: center;
+      gap: 18px;
     }
 
-    .card:focus{
-      outline: 3px solid rgba(120,149,255,.35);
-      outline-offset: 3px;
+    /* The O “sigil” */
+    .sigil{
+      width: var(--oSize);
+      height: var(--oSize);
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      isolation: isolate;
+      cursor: default;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
-    .card h3{
-      margin: 0 0 6px;
-      font-size: 16px;
-      letter-spacing: .1px;
+    /* Outer gradient ring */
+    .sigil::before{
+      content:"";
+      position:absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: conic-gradient(
+        from 210deg,
+        rgba(80,150,255,.95),
+        rgba(170,90,255,.95),
+        rgba(255,120,170,.92),
+        rgba(255,196,110,.92),
+        rgba(120,245,210,.92),
+        rgba(80,150,255,.95)
+      );
+      filter: blur(.2px);
+      box-shadow: var(--shadow);
+      transform: translateZ(0);
+      animation: hue 60s linear infinite;
     }
 
-    .card p{
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
+    /* Inner “hole” */
+    .sigil::after{
+      content:"";
+      position:absolute;
+      inset: 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(11,18,32,.06);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
-    .emoji{
+    @keyframes hue{
+      0%{ filter: hue-rotate(0deg); }
+      100%{ filter: hue-rotate(360deg); }
+    }
+
+    /* Gentle breathing glow */
+    .glow{
+      position:absolute;
+      inset:-30%;
+      border-radius: 999px;
+      background: radial-gradient(circle at 40% 30%, rgba(94,160,255,.22), transparent 60%),
+                  radial-gradient(circle at 70% 60%, rgba(255,132,186,.16), transparent 62%),
+                  radial-gradient(circle at 45% 75%, rgba(104,255,208,.16), transparent 58%);
+      filter: blur(22px);
+      z-index: -1;
+      opacity: .75;
+      animation: breathe 7s ease-in-out infinite;
+    }
+
+    @keyframes breathe{
+      0%,100% { transform: scale(1.00); opacity: .68; }
+      50%     { transform: scale(1.03); opacity: .82; }
+    }
+
+    /* Wordmark (non-identifying; just the domain) */
+    .title{
       font-size: 18px;
-      margin-right: 8px;
-      vertical-align: -2px;
+      letter-spacing: .14em;
+      text-transform: lowercase;
+      color: rgba(11,18,32,.72);
+      margin-top: 2px;
     }
 
-    /* Make the top “hero” card span full width */
-    .wide{ grid-column: span 12; min-height: 110px; }
-
-    /* Small screens */
-    @media (max-width: 720px){
-      header{ flex-direction: column; align-items:flex-start; }
-      .logo{ width: 200px; }
-      .card{ grid-column: span 12; }
-    }
-
-    footer{
-      margin-top: 26px;
+    .whisper{
+      font-size: 14px;
       color: var(--muted);
-      font-size: 13px;
+      min-height: 18px;
+      transition: opacity .4s ease;
+    }
+
+    /* Hidden panel */
+    .panel{
+      width: min(520px, 92vw);
+      border-radius: var(--radius);
+      padding: 14px 14px;
+      background: var(--glass);
+      border: 1px solid var(--stroke);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 12px 45px rgba(11,18,32,.10);
+      display: grid;
+      gap: 10px;
+      transform: translateY(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    .panel.show{
+      opacity: 1;
+      transform: translateY(0px);
+      pointer-events: auto;
+    }
+
+    .panelRow{
       display:flex;
-      justify-content:space-between;
-      gap: 12px;
+      align-items:center;
+      justify-content: center;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
-    .tiny-links a{
-      color: var(--muted);
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.70);
+      border: 1px solid rgba(11,18,32,.08);
       text-decoration: none;
-      border-bottom: 1px dashed rgba(120,149,255,.35);
+      color: rgba(11,18,32,.78);
+      font-size: 14px;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
     }
-    .tiny-links a:hover{ color: var(--text); }
 
+    .chip:hover{
+      transform: translateY(-1px);
+      border-color: rgba(94,160,255,.28);
+      background: rgba(255,255,255,.82);
+    }
+
+    .dot{
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: conic-gradient(from 210deg, #4f96ff, #b05aff, #ff78aa, #ffc46e, #78f5d2, #4f96ff);
+      box-shadow: 0 0 0 3px rgba(255,255,255,.70);
+    }
+
+    .hint{
+      font-size: 12px;
+      color: rgba(11,18,32,.52);
+      text-align: center;
+      padding: 0 6px 2px;
+    }
+
+    /* Top-right tiny affordance for accessibility (still subtle) */
+    .kbd{
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      font-size: 12px;
+      color: rgba(11,18,32,.45);
+      background: rgba(255,255,255,.55);
+      border: 1px solid rgba(11,18,32,.07);
+      border-radius: 999px;
+      padding: 8px 10px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      user-select: none;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .kbd kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 7px;
+      border: 1px solid rgba(11,18,32,.10);
+      background: rgba(255,255,255,.70);
+      color: rgba(11,18,32,.62);
+    }
+
+    /* Parallax targets */
+    .parallax{
+      transform: translate3d(var(--px, 0px), var(--py, 0px), 0);
+      transition: transform .2s ease;
+    }
   </style>
 </head>
 
 <body>
+  <div class="ambient"></div>
+  <div class="grain"></div>
+
   <div class="wrap">
+    <div class="kbd" aria-hidden="true">
+      <span>hold the ring</span> <kbd>or</kbd> <kbd>.</kbd>
+    </div>
 
-    <header>
-      <div>
-        <!-- Put your transparent logo file next to index.html and name it: logo.png -->
-        <img class="logo" src="tomes-me-logo.png" alt="tomes.me" />
-        <div class="tagline">
-          A simple home page with quick links for family & friends.
+    <div class="center parallax" id="parallaxRoot">
+      <div class="sigil" id="sigil" role="button" aria-label="tomes.me" tabindex="0">
+        <div class="glow"></div>
+      </div>
+
+      <div class="title">tomes.me</div>
+      <div class="whisper" id="whisper"> </div>
+
+      <div class="panel" id="panel" aria-hidden="true">
+        <div class="panelRow">
+          <!-- These are safe: they just go to Google login pages. No personal info exposed. -->
+          <a class="chip" href="https://mail.google.com/" target="_blank" rel="noopener">
+            <span class="dot" aria-hidden="true"></span> Mail
+          </a>
+          <a class="chip" href="https://calendar.google.com/" target="_blank" rel="noopener">
+            <span class="dot" aria-hidden="true"></span> Calendar
+          </a>
         </div>
+        <div class="hint"> </div>
       </div>
-
-      <div class="pill" title="Quick status / note">
-        ✨ Updated <span id="dateText">today</span>
-      </div>
-    </header>
-
-    <main class="grid">
-      <!-- “Hero” / pinned item -->
-      <a class="card wide" href="https://calendar.google.com" target="_blank" rel="noopener">
-        <h3><span class="emoji">📅</span>Shared calendar</h3>
-        <p>Jump straight to what’s on this week.</p>
-      </a>
-
-      <!-- Replace these href links with your real destinations -->
-      <a class="card" href="https://drive.google.com" target="_blank" rel="noopener">
-        <h3><span class="emoji">📁</span>Family Drive</h3>
-        <p>Docs, files, and anything we share.</p>
-      </a>
-
-      <a class="card" href="https://photos.google.com" target="_blank" rel="noopener">
-        <h3><span class="emoji">📸</span>Photos</h3>
-        <p>Albums and highlights.</p>
-      </a>
-
-      <a class="card" href="#" target="_blank" rel="noopener">
-        <h3><span class="emoji">🧾</span>Important docs</h3>
-        <p>Insurance, IDs, and household essentials.</p>
-      </a>
-
-      <a class="card" href="mailto:you@tomes.me">
-        <h3><span class="emoji">✉️</span>Contact</h3>
-        <p>Email me directly.</p>
-      </a>
-
-      <a class="card" href="#" target="_blank" rel="noopener">
-        <h3><span class="emoji">🧠</span>Notes</h3>
-        <p>Quick references, links, and reminders.</p>
-      </a>
-
-      <a class="card" href="#" target="_blank" rel="noopener">
-        <h3><span class="emoji">🔐</span>Family emergency info</h3>
-        <p>Key numbers + what to do (access controlled).</p>
-      </a>
-    </main>
-
-    <footer>
-      <div>© <span id="year"></span> tomes.me</div>
-      <div class="tiny-links">
-        <a href="https://www.google.com" target="_blank" rel="noopener">Search</a>
-        &nbsp;·&nbsp;
-        <a href="https://mail.google.com" target="_blank" rel="noopener">Mail</a>
-      </div>
-    </footer>
-
+    </div>
   </div>
 
   <script>
-    // Tiny nicety: show current year + “Updated today” date
-    const d = new Date();
-    document.getElementById("year").textContent = d.getFullYear();
-    const opts = { year: "numeric", month: "short", day: "numeric" };
-    document.getElementById("dateText").textContent = d.toLocaleDateString(undefined, opts);
+    (function(){
+      const sigil = document.getElementById("sigil");
+      const panel = document.getElementById("panel");
+      const whisper = document.getElementById("whisper");
+      const parallaxRoot = document.getElementById("parallaxRoot");
+
+      const HOLD_MS = 1200;
+      let holdTimer = null;
+      let isOpen = false;
+
+      const whispers = [
+        " ",
+        "welcome.",
+        " ",
+        " ",
+        "breathe.",
+        " ",
+        " ",
+        "you’re here."
+      ];
+
+      function setWhisper(){
+        const h = new Date().getHours();
+        // Keep it abstract; just a gentle hint of time without saying it.
+        const base = (h < 6 || h >= 21) ? "quiet." : (h < 12 ? "morning." : (h < 18 ? "afternoon." : "evening."));
+        // Rotate a tiny set of phrases; keep it sparse.
+        const pick = Math.random() < 0.55 ? " " : (Math.random() < 0.5 ? base : whispers[Math.floor(Math.random()*whispers.length)]);
+        whisper.textContent = pick;
+        whisper.style.opacity = pick.trim() ? "1" : ".55";
+      }
+
+      setWhisper();
+      setInterval(setWhisper, 9000);
+
+      function openPanel(){
+        isOpen = true;
+        panel.classList.add("show");
+        panel.setAttribute("aria-hidden","false");
+        // Keep it non-instructional; family will learn the gesture.
+        panel.querySelector(".hint").textContent = " ";
+      }
+
+      function closePanel(){
+        isOpen = false;
+        panel.classList.remove("show");
+        panel.setAttribute("aria-hidden","true");
+        panel.querySelector(".hint").textContent = " ";
+      }
+
+      function togglePanel(){
+        isOpen ? closePanel() : openPanel();
+      }
+
+      function startHold(){
+        if (holdTimer) return;
+        // If reduced motion, act instantly
+        const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const delay = reduce ? 0 : HOLD_MS;
+
+        holdTimer = window.setTimeout(() => {
+          holdTimer = null;
+          openPanel();
+        }, delay);
+      }
+
+      function cancelHold(){
+        if (!holdTimer) return;
+        clearTimeout(holdTimer);
+        holdTimer = null;
+      }
+
+      // Press & hold (touch + mouse)
+      sigil.addEventListener("pointerdown", (e) => {
+        // allow click to toggle if already open
+        if (isOpen) {
+          togglePanel();
+          return;
+        }
+        startHold();
+      });
+
+      sigil.addEventListener("pointerup", () => cancelHold());
+      sigil.addEventListener("pointercancel", () => cancelHold());
+      sigil.addEventListener("pointerleave", () => cancelHold());
+
+      // Long-hover (desktop): start hold on hover as well
+      sigil.addEventListener("mouseenter", () => { if (!isOpen) startHold(); });
+      sigil.addEventListener("mouseleave", () => cancelHold());
+
+      // Keyboard: "." toggles, Enter toggles when focused
+      window.addEventListener("keydown", (e) => {
+        if (e.key === ".") togglePanel();
+        if ((e.key === "Enter" || e.key === " ") && document.activeElement === sigil) {
+          e.preventDefault();
+          togglePanel();
+        }
+        if (e.key === "Escape") closePanel();
+      });
+
+      // Click outside closes (but only if open)
+      window.addEventListener("pointerdown", (e) => {
+        if (!isOpen) return;
+        const within = e.target.closest("#panel") || e.target.closest("#sigil");
+        if (!within) closePanel();
+      });
+
+      // Light parallax
+      window.addEventListener("pointermove", (e) => {
+        const w = window.innerWidth, h = window.innerHeight;
+        const nx = (e.clientX / w) - 0.5;
+        const ny = (e.clientY / h) - 0.5;
+        const px = Math.max(-10, Math.min(10, nx * 12));
+        const py = Math.max(-10, Math.min(10, ny * 12));
+        parallaxRoot.style.setProperty("--px", px.toFixed(2) + "px");
+        parallaxRoot.style.setProperty("--py", py.toFixed(2) + "px");
+      }, { passive: true });
+    })();
   </script>
 </body>
 </html>
