@@ -32,6 +32,63 @@
       *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
     }
 
+    @media (prefers-color-scheme: dark){
+  :root{
+    --bg: #070a12;
+    --ink: #eef3ff;
+    --muted: rgba(238,243,255,.62);
+    --glass: rgba(18,24,38,.55);
+    --stroke: rgba(238,243,255,.10);
+    --shadow: 0 22px 70px rgba(0,0,0,.55);
+  }
+
+  body{
+    background: var(--bg);
+  }
+
+  .ambient{
+    background:
+      radial-gradient(900px 560px at 18% 18%, rgba(94,160,255,.22), transparent 62%),
+      radial-gradient(820px 520px at 85% 24%, rgba(255,132,186,.16), transparent 60%),
+      radial-gradient(860px 560px at 55% 82%, rgba(104,255,208,.14), transparent 62%),
+      radial-gradient(900px 700px at 50% 50%, rgba(255,206,102,.12), transparent 70%),
+      linear-gradient(180deg, rgba(7,10,18,.92), rgba(7,10,18,.88));
+    filter: saturate(115%);
+  }
+
+  .sigil::after{
+    background: rgba(10,14,26,.78);
+    border: 1px solid rgba(238,243,255,.10);
+  }
+
+  .kbd{
+    color: rgba(238,243,255,.45);
+    background: rgba(18,24,38,.55);
+    border: 1px solid rgba(238,243,255,.10);
+  }
+
+  .kbd kbd{
+    border: 1px solid rgba(238,243,255,.14);
+    background: rgba(255,255,255,.06);
+    color: rgba(238,243,255,.70);
+  }
+
+  .chip{
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(238,243,255,.12);
+    color: rgba(238,243,255,.78);
+  }
+
+  .chip:hover{
+    border-color: rgba(94,160,255,.30);
+    background: rgba(255,255,255,.09);
+  }
+
+  .title{
+    color: rgba(238,243,255,.70);
+  }
+}
+
     *{ box-sizing: border-box; }
     html,body{ height:100%; }
     body{
