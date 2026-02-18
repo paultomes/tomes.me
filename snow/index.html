@@ -125,6 +125,20 @@
       background: rgba(255,255,255,.70);
     }
 
+    .badgeRow{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .badge{
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;         /* rounded-square */
+      object-fit: cover;
+      border: 1px solid var(--stroke);
+      box-shadow: 0 10px 30px rgba(11,18,32,.10);
+    }
+
     @media (prefers-color-scheme: dark){
       .fday{ background: rgba(255,255,255,.04); }
     }
@@ -175,13 +189,22 @@
       .subgrid .tile{ grid-column: span 12; }
       .forecast{ grid-template-columns: repeat(2, 1fr); }
     }
+
+    @media (prefers-color-scheme: dark){
+      .badge{
+        box-shadow: 0 18px 50px rgba(0,0,0,.35);
+      }
+    }
   </style>
 </head>
 
 <body>
   <div class="wrap">
     <div class="card">
-      <div class="row">
+      <div class="badgeRow">
+        <a href="/snow/" aria-label="Avoriaz 2026">
+          <img class="badge" src="avoriaz-2026-logo.png" alt="Avoriaz 2026 logo">
+        </a>
         <div>
           <div class="title">Avoriaz 2026</div>
           <div class="small">Weather + countdowns + private plan link.</div>
