@@ -1,53 +1,203 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Snow — tomes.me</title>
-  <meta name="robots" content="noindex">
+  <meta name="robots" content="noindex" />
+
   <style>
+    :root{
+      --bg:#fbfcff; --ink:#0b1220; --muted:rgba(11,18,32,.62);
+      --card:rgba(255,255,255,.60); --stroke:rgba(11,18,32,.08);
+      --shadow:0 18px 55px rgba(11,18,32,.10); --r:18px;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#070a12; --ink:#eef3ff; --muted:rgba(238,243,255,.62);
+        --card:rgba(18,24,38,.55); --stroke:rgba(238,243,255,.10);
+        --shadow:0 22px 70px rgba(0,0,0,.55);
+      }
+    }
+    *{ box-sizing:border-box; }
     body{
-      margin:0;
-      height:100vh;
-      display:grid;
-      place-items:center;
+      margin:0; min-height:100vh; display:grid; place-items:center;
       font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-      background:#fbfcff;
-      color:#0b1220;
+      background: var(--bg); color: var(--ink);
+      padding: 28px 18px;
     }
-    @media (prefers-color-scheme: dark){
-      body{
-        background:#070a12;
-        color:#eef3ff;
-      }
+    .wrap{ width:min(860px, 94vw); display:grid; gap:14px; }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
-    a{
-      padding:14px 20px;
-      border-radius:999px;
-      text-decoration:none;
-      border:1px solid rgba(0,0,0,.1);
-      background:rgba(255,255,255,.7);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      font-size:16px;
-      color:inherit;
+    .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+    .title{ font-size: 14px; letter-spacing:.10em; text-transform: lowercase; color: var(--muted); }
+    .small{ color: var(--muted); font-size: 12px; line-height: 1.45; }
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 12px 16px; border-radius: 999px;
+      text-decoration:none; color: inherit;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.65);
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+      white-space: nowrap;
     }
-    @media (prefers-color-scheme: dark){
-      a{
-        background:rgba(255,255,255,.08);
-        border:1px solid rgba(255,255,255,.15);
-      }
+    @media (prefers-color-scheme: dark){ .btn{ background: rgba(255,255,255,.06);} }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(94,160,255,.30); }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+      margin-top: 8px;
     }
-    a:hover{
-      transform:translateY(-1px);
+    .tile{
+      grid-column: span 4;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.35);
+    }
+    @media (prefers-color-scheme: dark){ .tile{ background: rgba(255,255,255,.04);} }
+    .tile b{ display:block; font-size: 20px; margin-bottom: 4px; }
+    .tile span{ color: var(--muted); font-size: 13px; }
+
+    .subgrid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .subgrid .tile{ grid-column: span 6; }
+
+    @media (max-width: 820px){
+      .tile{ grid-column: span 12; }
+      .subgrid .tile{ grid-column: span 12; }
     }
   </style>
 </head>
 <body>
-  <a href="https://docs.google.com/spreadsheets/d/177XWoZ8xvHnpbnz4HpX3-E2BugvdC3K5wiNWQedjW5g"
-     target="_blank"
-     rel="noopener">
-    Open Snow Plan
-  </a>
+  <div class="wrap">
+    <div class="card">
+      <div class="row">
+        <div>
+          <div class="title">tomes.me / snow</div>
+          <div class="small">Weather + countdowns + private plan link.</div>
+        </div>
+
+        <a class="btn"
+           href="https://docs.google.com/spreadsheets/d/177XWoZ8xvHnpbnz4HpX3-E2BugvdC3K5wiNWQedjW5g"
+           target="_blank" rel="noopener">
+          Open Snow Plan Sheet
+        </a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <b style="font-size:18px;">Avoriaz</b>
+          <div class="small" id="updated">Loading weather…</div>
+        </div>
+        <div class="small">All dates shown in your local time.</div>
+      </div>
+
+      <div class="grid">
+        <div class="tile">
+          <b id="temp">—</b>
+          <span>Temperature</span>
+        </div>
+        <div class="tile">
+          <b id="wind">—</b>
+          <span>Wind</span>
+        </div>
+        <div class="tile">
+          <b id="snow">—</b>
+          <span>Snowfall (today)</span>
+        </div>
+      </div>
+
+      <div class="subgrid" style="margin-top:12px;">
+        <div class="tile">
+          <b id="daysToTrip">—</b>
+          <span>days until holiday (28 Mar 2026)</span>
+        </div>
+        <div class="tile">
+          <b id="daysToDeadline">—</b>
+          <span>days left for 10% ski discount (book by 22 Feb 2026)</span>
+        </div>
+      </div>
+
+      <div class="small" style="margin-top:10px;">
+        Weather data via Open-Meteo (no tracking). The plan sheet remains private behind Google login.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Countdown helpers ---
+    function startOfLocalDay(d){
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    }
+    function daysUntilLocal(yyyy, mm, dd){
+      // mm is 1-based in this helper
+      const today = startOfLocalDay(new Date());
+      const target = new Date(yyyy, mm - 1, dd);
+      const ms = target - today;
+      return Math.ceil(ms / 86400000); // inclusive countdown feel
+    }
+    function fmtDays(n){
+      if (n > 0) return String(n);
+      if (n === 0) return "0";
+      return "passed";
+    }
+
+    // Holiday starts: 28 March 2026
+    const toTrip = daysUntilLocal(2026, 3, 28);
+    document.getElementById("daysToTrip").textContent = fmtDays(toTrip);
+
+    // Discount deadline: 22 February 2026
+    const toDeadline = daysUntilLocal(2026, 2, 22);
+    document.getElementById("daysToDeadline").textContent = fmtDays(toDeadline);
+
+    // --- Weather (Avoriaz approx coords) ---
+    const lat = 46.1878, lon = 6.7717;
+    const url =
+      "https://api.open-meteo.com/v1/forecast"
+      + `?latitude=${lat}&longitude=${lon}`
+      + "&current=temperature_2m,wind_speed_10m"
+      + "&daily=snowfall_sum"
+      + "&timezone=Europe%2FParis";
+
+    function fmt(n, unit){
+      return (n === null || n === undefined || Number.isNaN(n)) ? "—" : `${Math.round(n)}${unit}`;
+    }
+
+    fetch(url)
+      .then(r => r.ok ? r.json() : Promise.reject(new Error("Weather fetch failed")))
+      .then(data => {
+        const cur = data.current || {};
+        const daily = data.daily || {};
+
+        document.getElementById("temp").textContent = fmt(cur.temperature_2m, "°");
+        document.getElementById("wind").textContent = fmt(cur.wind_speed_10m, " km/h");
+
+        const snowToday = (daily.snowfall_sum && daily.snowfall_sum.length) ? daily.snowfall_sum[0] : 0;
+        document.getElementById("snow").textContent = `${(snowToday || 0).toFixed(1)} cm`;
+
+        const updated = cur.time ? new Date(cur.time) : new Date();
+        document.getElementById("updated").textContent =
+          `Updated ${updated.toLocaleString([], { weekday:"short", hour:"2-digit", minute:"2-digit" })}`;
+      })
+      .catch(() => {
+        document.getElementById("updated").textContent = "Weather unavailable right now.";
+      });
+  </script>
 </body>
 </html>
