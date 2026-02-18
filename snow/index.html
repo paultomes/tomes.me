@@ -105,6 +105,26 @@
       background: rgba(255,255,255,.35);
     }
 
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.55);
+      border: 1px solid var(--stroke);
+      text-decoration: none;
+      color: rgba(11,18,32,.78);
+      font-size: 13px;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+    }
+    
+    .pill:hover{
+      transform: translateY(-1px);
+      border-color: rgba(94,160,255,.28);
+      background: rgba(255,255,255,.70);
+    }
+
     @media (prefers-color-scheme: dark){
       .fday{ background: rgba(255,255,255,.04); }
     }
@@ -126,6 +146,19 @@
       border: 1px solid var(--stroke);
       background: rgba(255,255,255,.35);
     }
+
+    @media (prefers-color-scheme: dark){
+      .pill{
+        background: rgba(255,255,255,.06);
+        border: 1px solid rgba(238,243,255,.12);
+        color: rgba(238,243,255,.78);
+      }
+      .pill:hover{
+        border-color: rgba(94,160,255,.30);
+        background: rgba(255,255,255,.09);}
+    }
+
+    
     @media (prefers-color-scheme: dark){ .tile{ background: rgba(255,255,255,.04);} }
     .tile b{ display:block; font-size: 20px; margin-bottom: 4px; }
     .tile span{ color: var(--muted); font-size: 13px; }
@@ -160,6 +193,11 @@
           Add your rental details
         </a>
       </div>
+    </div>
+    <div style="margin-top:10px; display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+      <a class="pill" href="https://apps.apple.com/gb/app/avoriaz-up-down/id1482733392" target="_blank" rel="noopener">
+    Avoriaz Up&Down app
+      </a>
     </div>
 
     <div class="card">
