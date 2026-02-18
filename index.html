@@ -33,61 +33,72 @@
     }
 
     @media (prefers-color-scheme: dark){
-  :root{
-    --bg: #070a12;
-    --ink: #eef3ff;
-    --muted: rgba(238,243,255,.62);
-    --glass: rgba(18,24,38,.55);
-    --stroke: rgba(238,243,255,.10);
-    --shadow: 0 22px 70px rgba(0,0,0,.55);
-  }
+      :root{
+        --bg: #070a12;
+        --ink: #eef3ff;
+        --muted: rgba(238,243,255,.62);
+        --glass: rgba(18,24,38,.55);
+        --stroke: rgba(238,243,255,.10);
+        --shadow: 0 22px 70px rgba(0,0,0,.55);
+      }
 
-  body{
-    background: var(--bg);
-  }
+      body{
+        background: var(--bg);
+      }
 
-  .ambient{
-    background:
-      radial-gradient(900px 560px at 18% 18%, rgba(94,160,255,.22), transparent 62%),
-      radial-gradient(820px 520px at 85% 24%, rgba(255,132,186,.16), transparent 60%),
-      radial-gradient(860px 560px at 55% 82%, rgba(104,255,208,.14), transparent 62%),
-      radial-gradient(900px 700px at 50% 50%, rgba(255,206,102,.12), transparent 70%),
-      linear-gradient(180deg, rgba(7,10,18,.92), rgba(7,10,18,.88));
-    filter: saturate(115%);
-  }
+      .ambient{
+        background:
+          radial-gradient(900px 560px at 18% 18%, rgba(94,160,255,.22), transparent 62%),
+          radial-gradient(820px 520px at 85% 24%, rgba(255,132,186,.16), transparent 60%),
+          radial-gradient(860px 560px at 55% 82%, rgba(104,255,208,.14), transparent 62%),
+          radial-gradient(900px 700px at 50% 50%, rgba(255,206,102,.12), transparent 70%),
+          linear-gradient(180deg, rgba(7,10,18,.92), rgba(7,10,18,.88));
+        filter: saturate(115%);
+      }
 
-  .sigil::after{
-    background: rgba(10,14,26,.78);
-    border: 1px solid rgba(238,243,255,.10);
-  }
+      .sigil::after{
+        background: rgba(10,14,26,.78);
+        border: 1px solid rgba(238,243,255,.10);
+      }
 
-  .kbd{
-    color: rgba(238,243,255,.45);
-    background: rgba(18,24,38,.55);
-    border: 1px solid rgba(238,243,255,.10);
-  }
+      .kbd{
+        color: rgba(238,243,255,.45);
+        background: rgba(18,24,38,.55);
+        border: 1px solid rgba(238,243,255,.10);
+      }
 
-  .kbd kbd{
-    border: 1px solid rgba(238,243,255,.14);
-    background: rgba(255,255,255,.06);
-    color: rgba(238,243,255,.70);
-  }
+      .kbd kbd{
+        border: 1px solid rgba(238,243,255,.14);
+        background: rgba(255,255,255,.06);
+        color: rgba(238,243,255,.70);
+      }
 
-  .chip{
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(238,243,255,.12);
-    color: rgba(238,243,255,.78);
-  }
+      .chip{
+        background: rgba(255,255,255,.06);
+        border: 1px solid rgba(238,243,255,.12);
+        color: rgba(238,243,255,.78);
+      }
 
-  .chip:hover{
-    border-color: rgba(94,160,255,.30);
-    background: rgba(255,255,255,.09);
-  }
+      .chip:hover{
+        border-color: rgba(94,160,255,.30);
+        background: rgba(255,255,255,.09);
+      }
 
-  .title{
-    color: rgba(238,243,255,.70);
-  }
-}
+      .title{
+        color: rgba(238,243,255,.70);
+      }
+
+      /* Accent chip stays vibrant in dark mode */
+      .chip--accent{
+        border: 1px solid rgba(255,255,255,.14);
+        background: linear-gradient(135deg, rgba(79,150,255,.35), rgba(95,212,255,.22));
+        color: rgba(238,243,255,.88);
+      }
+      .chip--accent:hover{
+        background: linear-gradient(135deg, rgba(79,150,255,.42), rgba(95,212,255,.26));
+        border-color: rgba(95,212,255,.35);
+      }
+    }
 
     *{ box-sizing: border-box; }
     html,body{ height:100%; }
@@ -272,6 +283,21 @@
       flex-wrap: wrap;
     }
 
+    /* Subtle row label for scalability */
+    .panelLabel{
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(11,18,32,.46);
+      margin-top: 2px;
+      margin-bottom: -2px;
+      text-align: center;
+      user-select: none;
+    }
+    @media (prefers-color-scheme: dark){
+      .panelLabel{ color: rgba(238,243,255,.40); }
+    }
+
     .chip{
       display:inline-flex;
       align-items:center;
@@ -290,6 +316,17 @@
       transform: translateY(-1px);
       border-color: rgba(94,160,255,.28);
       background: rgba(255,255,255,.82);
+    }
+
+    /* Accent chip for “current trip” */
+    .chip--accent{
+      background: linear-gradient(135deg, rgba(79,150,255,.22), rgba(95,212,255,.14));
+      border: 1px solid rgba(79,150,255,.22);
+      color: rgba(11,18,32,.82);
+    }
+    .chip--accent:hover{
+      border-color: rgba(95,212,255,.34);
+      background: linear-gradient(135deg, rgba(79,150,255,.28), rgba(95,212,255,.18));
     }
 
     .dot{
@@ -370,6 +407,18 @@
             <span class="dot" aria-hidden="true"></span> Calendar
           </a>
         </div>
+
+        <!-- Scalable “Trips / Planning” row -->
+        <div class="panelLabel">Trips</div>
+        <div class="panelRow">
+          <a class="chip chip--accent" href="/snow/" rel="noopener">
+            <span class="dot" aria-hidden="true"></span> Avoriaz 2026
+          </a>
+          <!-- Future pills:
+          <a class="chip" href="/summer/" rel="noopener"><span class="dot" aria-hidden="true"></span> Summer 2026</a>
+          -->
+        </div>
+
         <div class="hint"> </div>
       </div>
     </div>
@@ -496,3 +545,4 @@
   </script>
 </body>
 </html>
+
