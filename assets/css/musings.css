@@ -1,0 +1,854 @@
+/*
+
+* Tomes Family Musings
+* Shared stylesheet for tomes.me/musings/
+  */
+
+:root {
+--background: #f7f4ee;
+--surface: #ffffff;
+--surface-soft: #fcfaf6;
+
+--text: #282725;
+--muted: #6f6b64;
+--accent: #765c3d;
+--accent-hover: #594329;
+
+--border: #ddd6cb;
+--quote-background: #f1ece3;
+
+--content-width: 760px;
+--archive-width: 960px;
+
+--serif: Georgia, "Times New Roman", Times, serif;
+--sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica,
+sans-serif;
+
+--radius-small: 4px;
+--radius-medium: 8px;
+
+--shadow-soft: 0 12px 32px rgba(45, 38, 28, 0.05);
+}
+
+/* ---------------------------------------------------------
+Base
+--------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+}
+
+html {
+scroll-behavior: smooth;
+}
+
+body {
+margin: 0;
+background: var(--background);
+color: var(--text);
+font-family: var(--serif);
+font-size: 19px;
+line-height: 1.75;
+text-rendering: optimizeLegibility;
+-webkit-font-smoothing: antialiased;
+}
+
+img {
+display: block;
+max-width: 100%;
+height: auto;
+}
+
+a {
+color: var(--accent);
+text-decoration-thickness: 1px;
+text-underline-offset: 3px;
+}
+
+a:hover,
+a:focus {
+color: var(--accent-hover);
+}
+
+a:focus-visible {
+outline: 3px solid rgba(118, 92, 61, 0.3);
+outline-offset: 4px;
+border-radius: 2px;
+}
+
+::selection {
+background: rgba(118, 92, 61, 0.18);
+}
+
+/* ---------------------------------------------------------
+Main page containers
+--------------------------------------------------------- */
+
+.page {
+width: min(calc(100% - 32px), var(--content-width));
+margin: 0 auto;
+padding: 48px 0 80px;
+}
+
+.page-wide {
+width: min(calc(100% - 32px), var(--archive-width));
+margin: 0 auto;
+padding: 48px 0 80px;
+}
+
+/* ---------------------------------------------------------
+Site header and navigation
+--------------------------------------------------------- */
+
+.site-header {
+margin-bottom: 52px;
+font-family: var(--sans);
+}
+
+.site-header-inner {
+display: flex;
+align-items: flex-start;
+justify-content: space-between;
+gap: 24px;
+}
+
+.site-title {
+margin: 0;
+font-family: var(--sans);
+font-size: 0.95rem;
+font-weight: 700;
+letter-spacing: 0.09em;
+text-transform: uppercase;
+}
+
+.site-title a {
+color: var(--accent);
+text-decoration: none;
+}
+
+.site-description {
+max-width: 620px;
+margin: 8px 0 0;
+color: var(--muted);
+font-family: var(--sans);
+font-size: 0.9rem;
+line-height: 1.55;
+}
+
+.site-nav {
+display: flex;
+flex-wrap: wrap;
+gap: 10px 18px;
+margin: 0;
+padding: 0;
+list-style: none;
+font-family: var(--sans);
+font-size: 0.85rem;
+}
+
+.site-nav a {
+color: var(--muted);
+text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a:focus,
+.site-nav a[aria-current="page"] {
+color: var(--accent);
+}
+
+/* ---------------------------------------------------------
+Breadcrumbs
+--------------------------------------------------------- */
+
+.breadcrumbs {
+margin: 0 0 24px;
+padding: 0;
+list-style: none;
+color: var(--muted);
+font-family: var(--sans);
+font-size: 0.78rem;
+}
+
+.breadcrumbs li {
+display: inline;
+}
+
+.breadcrumbs li + li::before {
+content: " / ";
+padding: 0 5px;
+color: var(--border);
+}
+
+.breadcrumbs a {
+color: var(--muted);
+text-decoration: none;
+}
+
+.breadcrumbs a:hover,
+.breadcrumbs a:focus {
+color: var(--accent);
+}
+
+/* ---------------------------------------------------------
+Article page
+--------------------------------------------------------- */
+
+.musing {
+overflow: hidden;
+padding: clamp(28px, 6vw, 64px);
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-medium);
+box-shadow: var(--shadow-soft);
+}
+
+.article-header {
+margin-bottom: 44px;
+padding-bottom: 32px;
+border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+margin: 0 0 12px;
+color: var(--accent);
+font-family: var(--sans);
+font-size: 0.78rem;
+font-weight: 700;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+}
+
+h1,
+h2,
+h3 {
+color: var(--text);
+font-family: var(--serif);
+text-wrap: balance;
+}
+
+h1 {
+margin: 0;
+font-size: clamp(2.25rem, 7vw, 4rem);
+font-weight: 500;
+line-height: 1.08;
+letter-spacing: -0.025em;
+}
+
+h2 {
+margin: 50px 0 16px;
+font-size: 1.65rem;
+font-weight: 500;
+line-height: 1.3;
+}
+
+h3 {
+margin: 36px 0 12px;
+font-size: 1.25rem;
+font-weight: 600;
+line-height: 1.4;
+}
+
+.subtitle {
+max-width: 650px;
+margin: 20px 0 0;
+color: var(--muted);
+font-size: 1.15rem;
+line-height: 1.55;
+}
+
+.article-meta {
+display: flex;
+flex-wrap: wrap;
+gap: 8px 18px;
+margin-top: 24px;
+color: var(--muted);
+font-family: var(--sans);
+font-size: 0.84rem;
+line-height: 1.5;
+}
+
+.article-meta span + span::before {
+content: "·";
+margin-right: 18px;
+color: var(--border);
+}
+
+.article-body p {
+margin: 0 0 24px;
+}
+
+.article-body > :first-child {
+margin-top: 0;
+}
+
+.article-body > :last-child {
+margin-bottom: 0;
+}
+
+.opening {
+font-size: 1.08em;
+}
+
+/* Optional decorative first letter */
+
+.drop-cap::first-letter {
+float: left;
+margin: 0.08em 0.12em 0 0;
+color: var(--accent);
+font-size: 4.1em;
+line-height: 0.82;
+}
+
+/* ---------------------------------------------------------
+Quotes and callouts
+--------------------------------------------------------- */
+
+blockquote {
+margin: 38px 0;
+padding: 24px 28px;
+background: var(--quote-background);
+border-left: 4px solid var(--accent);
+border-radius: 0 var(--radius-small) var(--radius-small) 0;
+font-size: 1.12rem;
+font-style: italic;
+}
+
+blockquote p:last-child {
+margin-bottom: 0;
+}
+
+.principle,
+.callout {
+margin: 38px 0;
+padding: 26px 28px;
+background: var(--surface-soft);
+border: 1px solid var(--border);
+border-radius: var(--radius-small);
+}
+
+.principle strong,
+.callout-title {
+display: block;
+margin-bottom: 8px;
+color: var(--accent);
+font-family: var(--sans);
+font-size: 0.8rem;
+font-weight: 700;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------
+Lists within articles
+--------------------------------------------------------- */
+
+.article-body ul,
+.article-body ol {
+margin: 0 0 26px;
+padding-left: 1.4em;
+}
+
+.article-body li {
+margin-bottom: 10px;
+}
+
+.article-body li::marker {
+color: var(--accent);
+}
+
+/* ---------------------------------------------------------
+Sign-off and historical context
+--------------------------------------------------------- */
+
+.sign-off {
+margin-top: 56px;
+}
+
+.sign-off p {
+margin-bottom: 8px;
+}
+
+.context {
+margin-top: 56px;
+padding-top: 28px;
+border-top: 1px solid var(--border);
+color: var(--muted);
+font-family: var(--sans);
+font-size: 0.86rem;
+line-height: 1.65;
+}
+
+.context strong {
+color: var(--text);
+}
+
+/* ---------------------------------------------------------
+Previous and next navigation
+--------------------------------------------------------- */
+
+.musing-navigation {
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 16px;
+margin-top: 32px;
+font-family: var(--sans);
+}
+
+.musing-navigation a {
+display: block;
+min-height: 100%;
+padding: 18px 20px;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-small);
+text-decoration: none;
+}
+
+.musing-navigation a:hover,
+.musing-navigation a:focus {
+border-color: var(--accent);
+}
+
+.musing-navigation .next {
+text-align: right;
+}
+
+.navigation-label {
+display: block;
+margin-bottom: 5px;
+color: var(--muted);
+font-size: 0.72rem;
+font-weight: 700;
+letter-spacing: 0.07em;
+text-transform: uppercase;
+}
+
+.navigation-title {
+color: var(--text);
+font-size: 0.92rem;
+line-height: 1.4;
+}
+
+/* ---------------------------------------------------------
+Archive and landing-page headers
+--------------------------------------------------------- */
+
+.archive-header {
+max-width: 760px;
+margin-bottom: 48px;
+}
+
+.archive-kicker {
+margin: 0 0 10px;
+color: var(--accent);
+font-family: var(--sans);
+font-size: 0.78rem;
+font-weight: 700;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+}
+
+.archive-title {
+margin: 0;
+font-size: clamp(2.3rem, 6vw, 4.2rem);
+font-weight: 500;
+line-height: 1.08;
+letter-spacing: -0.025em;
+}
+
+.archive-intro {
+max-width: 700px;
+margin: 20px 0 0;
+color: var(--muted);
+font-size: 1.12rem;
+line-height: 1.65;
+}
+
+/* ---------------------------------------------------------
+Author profiles
+--------------------------------------------------------- */
+
+.author-profile {
+display: grid;
+grid-template-columns: auto 1fr;
+gap: 28px;
+align-items: start;
+margin: 0 0 48px;
+padding: 28px;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-medium);
+}
+
+.author-photo {
+width: 96px;
+height: 96px;
+object-fit: cover;
+border-radius: 50%;
+}
+
+.author-name {
+margin: 0 0 8px;
+font-size: 1.45rem;
+}
+
+.author-description {
+margin: 0;
+color: var(--muted);
+font-size: 1rem;
+}
+
+/* ---------------------------------------------------------
+Musing cards and archive lists
+--------------------------------------------------------- */
+
+.musing-list {
+display: grid;
+gap: 18px;
+margin: 0;
+padding: 0;
+list-style: none;
+}
+
+.musing-card {
+display: block;
+padding: 26px 28px;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-medium);
+text-decoration: none;
+transition:
+transform 140ms ease,
+border-color 140ms ease,
+box-shadow 140ms ease;
+}
+
+.musing-card:hover,
+.musing-card:focus {
+transform: translateY(-2px);
+border-color: rgba(118, 92, 61, 0.55);
+box-shadow: var(--shadow-soft);
+}
+
+.musing-card-title {
+margin: 0 0 8px;
+color: var(--text);
+font-size: 1.4rem;
+font-weight: 500;
+line-height: 1.3;
+}
+
+.musing-card-description {
+margin: 0 0 14px;
+color: var(--muted);
+font-size: 0.98rem;
+line-height: 1.6;
+}
+
+.musing-card-meta {
+color: var(--accent);
+font-family: var(--sans);
+font-size: 0.78rem;
+font-weight: 600;
+}
+
+/* ---------------------------------------------------------
+Year archive
+--------------------------------------------------------- */
+
+.year-section {
+margin-top: 56px;
+}
+
+.year-heading {
+display: flex;
+align-items: center;
+gap: 18px;
+margin: 0 0 22px;
+font-family: var(--sans);
+font-size: 0.9rem;
+font-weight: 700;
+letter-spacing: 0.09em;
+text-transform: uppercase;
+}
+
+.year-heading::after {
+content: "";
+flex: 1;
+height: 1px;
+background: var(--border);
+}
+
+.year-count {
+color: var(--muted);
+font-weight: 400;
+}
+
+/* ---------------------------------------------------------
+Family author grid
+--------------------------------------------------------- */
+
+.author-grid {
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 18px;
+margin-top: 36px;
+}
+
+.author-card {
+display: block;
+padding: 26px;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-medium);
+text-decoration: none;
+}
+
+.author-card:hover,
+.author-card:focus {
+border-color: var(--accent);
+}
+
+.author-card-name {
+margin: 0 0 6px;
+color: var(--text);
+font-size: 1.35rem;
+font-weight: 500;
+}
+
+.author-card-role {
+margin: 0;
+color: var(--muted);
+font-family: var(--sans);
+font-size: 0.84rem;
+}
+
+/* ---------------------------------------------------------
+Empty states
+--------------------------------------------------------- */
+
+.empty-state {
+padding: 32px;
+background: var(--surface-soft);
+border: 1px dashed var(--border);
+border-radius: var(--radius-medium);
+color: var(--muted);
+text-align: center;
+}
+
+/* ---------------------------------------------------------
+Footer
+--------------------------------------------------------- */
+
+.site-footer {
+margin-top: 34px;
+color: var(--muted);
+font-family: var(--sans);
+font-size: 0.8rem;
+line-height: 1.6;
+text-align: center;
+}
+
+.site-footer p {
+margin: 0;
+}
+
+.site-footer a {
+color: var(--muted);
+}
+
+.site-footer a:hover,
+.site-footer a:focus {
+color: var(--accent);
+}
+
+/* ---------------------------------------------------------
+Utility classes
+--------------------------------------------------------- */
+
+.visually-hidden {
+position: absolute;
+width: 1px;
+height: 1px;
+padding: 0;
+overflow: hidden;
+clip: rect(0, 0, 0, 0);
+white-space: nowrap;
+border: 0;
+}
+
+.text-muted {
+color: var(--muted);
+}
+
+.text-centre {
+text-align: center;
+}
+
+.no-margin {
+margin: 0;
+}
+
+/* ---------------------------------------------------------
+Responsive layout
+--------------------------------------------------------- */
+
+@media (max-width: 760px) {
+body {
+font-size: 18px;
+}
+
+.page,
+.page-wide {
+width: min(calc(100% - 24px), var(--archive-width));
+padding-top: 30px;
+}
+
+.site-header {
+margin-bottom: 32px;
+}
+
+.site-header-inner {
+display: block;
+}
+
+.site-nav {
+margin-top: 20px;
+}
+
+.musing {
+padding: 34px 28px 44px;
+}
+
+.author-grid {
+grid-template-columns: 1fr;
+}
+}
+
+@media (max-width: 560px) {
+body {
+font-size: 17px;
+}
+
+.page,
+.page-wide {
+width: min(calc(100% - 20px), var(--archive-width));
+padding-top: 24px;
+}
+
+.musing {
+padding: 28px 21px 38px;
+border-radius: var(--radius-small);
+}
+
+.article-header {
+margin-bottom: 34px;
+padding-bottom: 26px;
+}
+
+h2 {
+margin-top: 42px;
+}
+
+blockquote,
+.principle,
+.callout {
+margin-left: 0;
+margin-right: 0;
+padding: 20px;
+}
+
+.article-meta {
+display: block;
+}
+
+.article-meta span {
+display: block;
+}
+
+.article-meta span + span {
+margin-top: 4px;
+}
+
+.article-meta span + span::before {
+content: none;
+}
+
+.musing-navigation {
+grid-template-columns: 1fr;
+}
+
+.musing-navigation .next {
+text-align: left;
+}
+
+.author-profile {
+grid-template-columns: 1fr;
+}
+
+.author-photo {
+width: 80px;
+height: 80px;
+}
+
+.musing-card {
+padding: 22px;
+}
+}
+
+/* ---------------------------------------------------------
+Print
+--------------------------------------------------------- */
+
+@media print {
+:root {
+--background: #ffffff;
+--surface: #ffffff;
+--text: #000000;
+--muted: #444444;
+--border: #cccccc;
+}
+
+body {
+font-size: 12pt;
+}
+
+.page,
+.page-wide {
+width: 100%;
+padding: 0;
+}
+
+.site-header,
+.site-footer,
+.breadcrumbs,
+.musing-navigation {
+display: none;
+}
+
+.musing {
+padding: 0;
+border: 0;
+box-shadow: none;
+}
+
+a {
+color: inherit;
+text-decoration: none;
+}
+
+blockquote,
+.principle,
+.callout {
+break-inside: avoid;
+}
+
+h1,
+h2,
+h3 {
+break-after: avoid;
+}
+}
