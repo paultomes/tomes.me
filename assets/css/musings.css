@@ -373,8 +373,7 @@ Editorial callouts
     color: var(--text);
 
     font-family: var(--serif);
-    font-size: 1.16rem;
-    line-height: 1.3;
+    font-size: 1.12rem;
 }
 
 .callout-body p:last-child {
