@@ -1,548 +1,86 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="tomes.me" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="tomes.me — a quiet way in.">
+  <meta name="theme-color" content="#0b101a">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noimageindex">
+  <link rel="canonical" href="https://tomes.me/">
   <title>tomes.me</title>
-
-  <!-- Favicon / App Icons (keep if you added these files) -->
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-
   <style>
-    :root{
-      --bg: #fbfcff;
-      --ink: #0b1220;
-      --muted: rgba(11,18,32,.62);
-      --glass: rgba(255,255,255,.55);
-      --stroke: rgba(11,18,32,.08);
-      --shadow: 0 18px 55px rgba(11,18,32,.10);
-      --radius: 22px;
-      --oSize: 112px;
-      --holdMs: 1200ms;
-    }
-
-    /* Respect reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      :root{ --holdMs: 0ms; }
-      *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
-    }
-
-    @media (prefers-color-scheme: dark){
-      :root{
-        --bg: #070a12;
-        --ink: #eef3ff;
-        --muted: rgba(238,243,255,.62);
-        --glass: rgba(18,24,38,.55);
-        --stroke: rgba(238,243,255,.10);
-        --shadow: 0 22px 70px rgba(0,0,0,.55);
-      }
-
-      body{
-        background: var(--bg);
-      }
-
-      .ambient{
-        background:
-          radial-gradient(900px 560px at 18% 18%, rgba(94,160,255,.22), transparent 62%),
-          radial-gradient(820px 520px at 85% 24%, rgba(255,132,186,.16), transparent 60%),
-          radial-gradient(860px 560px at 55% 82%, rgba(104,255,208,.14), transparent 62%),
-          radial-gradient(900px 700px at 50% 50%, rgba(255,206,102,.12), transparent 70%),
-          linear-gradient(180deg, rgba(7,10,18,.92), rgba(7,10,18,.88));
-        filter: saturate(115%);
-      }
-
-      .sigil::after{
-        background: rgba(10,14,26,.78);
-        border: 1px solid rgba(238,243,255,.10);
-      }
-
-      .kbd{
-        color: rgba(238,243,255,.45);
-        background: rgba(18,24,38,.55);
-        border: 1px solid rgba(238,243,255,.10);
-      }
-
-      .kbd kbd{
-        border: 1px solid rgba(238,243,255,.14);
-        background: rgba(255,255,255,.06);
-        color: rgba(238,243,255,.70);
-      }
-
-      .chip{
-        background: rgba(255,255,255,.06);
-        border: 1px solid rgba(238,243,255,.12);
-        color: rgba(238,243,255,.78);
-      }
-
-      .chip:hover{
-        border-color: rgba(94,160,255,.30);
-        background: rgba(255,255,255,.09);
-      }
-
-      .title{
-        color: rgba(238,243,255,.70);
-      }
-
-      /* Accent chip stays vibrant in dark mode */
-      .chip--accent{
-        border: 1px solid rgba(255,255,255,.14);
-        background: linear-gradient(135deg, rgba(79,150,255,.35), rgba(95,212,255,.22));
-        color: rgba(238,243,255,.88);
-      }
-      .chip--accent:hover{
-        background: linear-gradient(135deg, rgba(79,150,255,.42), rgba(95,212,255,.26));
-        border-color: rgba(95,212,255,.35);
-      }
-    }
-
-    *{ box-sizing: border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color: var(--ink);
-      background: var(--bg);
-      overflow: hidden;
-    }
-
-    /* Ambient background */
-    .ambient{
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(900px 560px at 18% 18%, rgba(94,160,255,.18), transparent 62%),
-        radial-gradient(820px 520px at 85% 24%, rgba(255,132,186,.13), transparent 60%),
-        radial-gradient(860px 560px at 55% 82%, rgba(104,255,208,.12), transparent 62%),
-        radial-gradient(900px 700px at 50% 50%, rgba(255,206,102,.10), transparent 70%),
-        linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.88));
-      filter: saturate(110%);
-      transform: translate3d(0,0,0);
-      animation: drift 90s ease-in-out infinite alternate;
-    }
-
-    @keyframes drift{
-      0%   { transform: translate3d(-1.5%, -1%, 0) scale(1.02); filter: blur(0px) saturate(112%); }
-      100% { transform: translate3d( 1.8%,  1.2%, 0) scale(1.03); filter: blur(0.6px) saturate(108%); }
-    }
-
-    /* Very subtle film grain */
-    .grain{
-      position: fixed;
-      inset: -30%;
-      pointer-events: none;
-      opacity: .07;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-      transform: translateZ(0);
-      animation: grainMove 12s linear infinite;
-    }
-    @keyframes grainMove{
-      0% { transform: translate3d(-3%, -2%, 0); }
-      100% { transform: translate3d(3%, 2%, 0); }
-    }
-
-    /* Layout */
-    .wrap{
-      position: relative;
-      height: 100%;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-    }
-
-    .center{
-      width: min(720px, 94vw);
-      text-align: center;
-      display: grid;
-      place-items: center;
-      gap: 18px;
-    }
-
-    /* The O “sigil” */
-    .sigil{
-      width: var(--oSize);
-      height: var(--oSize);
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      position: relative;
-      isolation: isolate;
-      cursor: default;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-    }
-
-    /* Outer gradient ring */
-    .sigil::before{
-      content:"";
-      position:absolute;
-      inset: 0;
-      border-radius: 999px;
-      background: conic-gradient(
-        from 210deg,
-        rgba(80,150,255,.95),
-        rgba(170,90,255,.95),
-        rgba(255,120,170,.92),
-        rgba(255,196,110,.92),
-        rgba(120,245,210,.92),
-        rgba(80,150,255,.95)
-      );
-      filter: blur(.2px);
-      box-shadow: var(--shadow);
-      transform: translateZ(0);
-      animation: hue 60s linear infinite;
-    }
-
-    /* Inner “hole” */
-    .sigil::after{
-      content:"";
-      position:absolute;
-      inset: 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.92);
-      border: 1px solid rgba(11,18,32,.06);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    @keyframes hue{
-      0%{ filter: hue-rotate(0deg); }
-      100%{ filter: hue-rotate(360deg); }
-    }
-
-    /* Gentle breathing glow */
-    .glow{
-      position:absolute;
-      inset:-30%;
-      border-radius: 999px;
-      background: radial-gradient(circle at 40% 30%, rgba(94,160,255,.22), transparent 60%),
-                  radial-gradient(circle at 70% 60%, rgba(255,132,186,.16), transparent 62%),
-                  radial-gradient(circle at 45% 75%, rgba(104,255,208,.16), transparent 58%);
-      filter: blur(22px);
-      z-index: -1;
-      opacity: .75;
-      animation: breathe 7s ease-in-out infinite;
-    }
-
-    @keyframes breathe{
-      0%,100% { transform: scale(1.00); opacity: .68; }
-      50%     { transform: scale(1.03); opacity: .82; }
-    }
-
-    /* Wordmark (non-identifying; just the domain) */
-    .title{
-      font-size: 18px;
-      letter-spacing: .14em;
-      text-transform: lowercase;
-      color: rgba(11,18,32,.72);
-      margin-top: 2px;
-    }
-
-    .whisper{
-      font-size: 14px;
-      color: var(--muted);
-      min-height: 18px;
-      transition: opacity .4s ease;
-    }
-
-    /* Hidden panel */
-    .panel{
-      width: min(520px, 92vw);
-      border-radius: var(--radius);
-      padding: 14px 14px;
-      background: var(--glass);
-      border: 1px solid var(--stroke);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 12px 45px rgba(11,18,32,.10);
-      display: grid;
-      gap: 10px;
-      transform: translateY(10px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .35s ease, transform .35s ease;
-    }
-
-    .panel.show{
-      opacity: 1;
-      transform: translateY(0px);
-      pointer-events: auto;
-    }
-
-    .panelRow{
-      display:flex;
-      align-items:center;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    /* Subtle row label for scalability */
-    .panelLabel{
-      font-size: 12px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: rgba(11,18,32,.46);
-      margin-top: 2px;
-      margin-bottom: -2px;
-      text-align: center;
-      user-select: none;
-    }
-    @media (prefers-color-scheme: dark){
-      .panelLabel{ color: rgba(238,243,255,.40); }
-    }
-
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.70);
-      border: 1px solid rgba(11,18,32,.08);
-      text-decoration: none;
-      color: rgba(11,18,32,.78);
-      font-size: 14px;
-      transition: transform .12s ease, border-color .12s ease, background .12s ease;
-    }
-
-    .chip:hover{
-      transform: translateY(-1px);
-      border-color: rgba(94,160,255,.28);
-      background: rgba(255,255,255,.82);
-    }
-
-    /* Accent chip for “current trip” */
-    .chip--accent{
-      background: linear-gradient(135deg, rgba(79,150,255,.22), rgba(95,212,255,.14));
-      border: 1px solid rgba(79,150,255,.22);
-      color: rgba(11,18,32,.82);
-    }
-    .chip--accent:hover{
-      border-color: rgba(95,212,255,.34);
-      background: linear-gradient(135deg, rgba(79,150,255,.28), rgba(95,212,255,.18));
-    }
-
-    .dot{
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: conic-gradient(from 210deg, #4f96ff, #b05aff, #ff78aa, #ffc46e, #78f5d2, #4f96ff);
-      box-shadow: 0 0 0 3px rgba(255,255,255,.70);
-    }
-
-    .hint{
-      font-size: 12px;
-      color: rgba(11,18,32,.52);
-      text-align: center;
-      padding: 0 6px 2px;
-    }
-
-    /* Top-right tiny affordance for accessibility (still subtle) */
-    .kbd{
-      position: fixed;
-      top: 14px;
-      right: 14px;
-      font-size: 12px;
-      color: rgba(11,18,32,.45);
-      background: rgba(255,255,255,.55);
-      border: 1px solid rgba(11,18,32,.07);
-      border-radius: 999px;
-      padding: 8px 10px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      user-select: none;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .kbd kbd{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: 11px;
-      padding: 2px 6px;
-      border-radius: 7px;
-      border: 1px solid rgba(11,18,32,.10);
-      background: rgba(255,255,255,.70);
-      color: rgba(11,18,32,.62);
-    }
-
-    /* Parallax targets */
-    .parallax{
-      transform: translate3d(var(--px, 0px), var(--py, 0px), 0);
-      transition: transform .2s ease;
-    }
+    :root{--ink:#f2f3f6;--quiet:#a7acb8;--line:rgba(255,255,255,.13);--panel:rgba(17,22,33,.82);--ease:cubic-bezier(.2,.8,.2,1)}
+    *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{min-width:320px;background:#0b101a;color:var(--ink);font:16px/1.35 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+    body::before,body::after{content:"";position:fixed;inset:-30%;pointer-events:none;filter:blur(60px);opacity:.55}body::before{background:radial-gradient(circle at 45% 45%,#354c77 0,transparent 22%),radial-gradient(circle at 70% 30%,#553956 0,transparent 20%)}body::after{background:radial-gradient(circle at 23% 70%,#194e54 0,transparent 19%);animation:drift 18s var(--ease) infinite alternate}
+    .page{min-height:100svh;display:grid;place-items:center;padding:max(24px,env(safe-area-inset-top)) 24px max(24px,env(safe-area-inset-bottom));position:relative}.wordmark{position:fixed;top:max(25px,env(safe-area-inset-top));left:28px;letter-spacing:.18em;font-size:.71rem;color:var(--quiet);text-transform:lowercase}.stage{display:grid;justify-items:center;gap:22px;width:min(100%,620px);transition:transform .65s var(--ease)}
+    .orb{--size:clamp(142px,28vw,190px);width:var(--size);height:var(--size);padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer;position:relative;isolation:isolate;color:inherit;touch-action:manipulation}.orb::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 215deg,#7ba9ff,#ad79ff,#e993b5,#eec17c,#6ccfc1,#7ba9ff);box-shadow:0 0 0 1px rgba(255,255,255,.18),0 20px 65px rgba(0,0,0,.45);transition:transform .65s var(--ease),filter .65s var(--ease)}.orb::after{content:"";position:absolute;inset:18px;border-radius:50%;background:#111827;border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 0 38px rgba(8,12,20,.8)}.orb:hover::before,.orb:focus-visible::before{transform:scale(1.055);filter:brightness(1.14)}.orb span{position:absolute;z-index:1;inset:0;display:grid;place-items:center;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#bac1ce;opacity:.7;transition:opacity .3s}.orb:focus-visible{outline:2px solid #d9e4ff;outline-offset:9px}
+    .prompt{margin:0;color:var(--quiet);font-size:.85rem;letter-spacing:.035em;text-align:center}.prompt strong{color:#dde1e8;font-weight:500}.panel{width:min(100%,560px);display:grid;grid-template-rows:0fr;opacity:0;transform:translateY(-10px);transition:grid-template-rows .6s var(--ease),opacity .35s var(--ease),transform .6s var(--ease)}.panel-inner{overflow:hidden}.panel-content{padding:5px 0 0}.is-open .panel{grid-template-rows:1fr;opacity:1;transform:translateY(0)}.is-open .stage{transform:translateY(-3vh)}.is-open .orb::before{transform:rotate(66deg) scale(.76)}.is-open .orb span{opacity:0}
+    .menu{padding:12px;border:1px solid var(--line);border-radius:26px;background:var(--panel);box-shadow:0 24px 70px rgba(0,0,0,.34);backdrop-filter:blur(24px)}.primary{display:grid;grid-template-columns:1fr 1fr;gap:6px}.destination{min-height:108px;padding:15px;border-radius:18px;color:inherit;text-decoration:none;border:1px solid transparent;display:grid;align-content:space-between;transition:background .2s,border-color .2s,transform .2s}.destination:hover,.destination:focus-visible{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);transform:translateY(-2px);outline:none}.destination small{font-size:.65rem;text-transform:uppercase;letter-spacing:.14em;color:#969dab}.emblem{width:34px;height:34px;display:grid;place-items:center;color:#d9bd7d}.mic{color:#ff78aa}.ski{color:#bfe1ff}.musing{color:#c6b7ff;font-family:Georgia,serif;font-size:1.55rem;font-style:italic}.line{height:1px;background:var(--line);margin:12px 4px}.quiet-links{display:flex;gap:4px;justify-content:center}.quiet-links a{padding:9px 14px;border-radius:999px;color:#b8bfca;text-decoration:none;font-size:.79rem}.quiet-links a:hover,.quiet-links a:focus-visible{background:rgba(255,255,255,.08);outline:none}.close{display:block;margin:5px 0 0 auto;background:none;border:0;color:#8d94a2;padding:7px;cursor:pointer;font:inherit;font-size:.72rem}.close:hover,.close:focus-visible{color:#fff;outline:1px solid rgba(255,255,255,.3);border-radius:8px}
+    @keyframes drift{to{transform:translate(6%,4%) scale(1.1)}}@media(max-width:440px){.wordmark{left:22px}.primary{gap:3px}.destination{min-height:96px;padding:13px}.stage{gap:18px}.is-open .stage{transform:translateY(-2vh)}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
   </style>
 </head>
-
 <body>
-  <div class="ambient"></div>
-  <div class="grain"></div>
-
-  <div class="wrap">
-    <div class="kbd" aria-hidden="true">
-      <span>hold the ring</span> <kbd>or</kbd> <kbd>.</kbd>
-    </div>
-
-    <div class="center parallax" id="parallaxRoot">
-      <div class="sigil" id="sigil" role="button" aria-label="tomes.me" tabindex="0">
-        <div class="glow"></div>
+  <main class="page" id="page">
+    <div class="wordmark">tomes.me</div>
+    <section class="stage" aria-label="tomes.me">
+      <button class="orb" id="trigger" type="button" aria-expanded="false" aria-controls="navigation" aria-label="Open tomes.me navigation"><span aria-hidden="true">Enter</span></button>
+      <p class="prompt" id="prompt" aria-live="polite"><strong>Tap the ring</strong> to find your way in.</p>
+      <div class="panel" id="navigation" aria-hidden="true" inert>
+        <div class="panel-inner"><div class="panel-content"><nav class="menu" aria-label="Tomes destinations">
+          <div class="primary">
+            <a class="destination" href="/musings/"><span class="emblem musing" aria-hidden="true">m</span><small>Musings</small></a>
+            <a class="destination" href="/snow/"><span class="emblem ski" aria-hidden="true">⌁</span><small>Ski trips</small></a>
+            <a class="destination" href="https://karaoke.tomes.me/" target="_blank" rel="noopener"><span class="emblem mic" aria-hidden="true"><svg viewBox="0 0 64 64" width="34" fill="none"><defs><linearGradient id="karaoke-gradient" x1="10" x2="54" y1="8" y2="56"><stop stop-color="#ff9d2e"/><stop offset=".56" stop-color="#ff5b55"/><stop offset="1" stop-color="#ff47b7"/></linearGradient></defs><circle cx="32" cy="32" r="27" stroke="url(#karaoke-gradient)" stroke-width="2"/><path d="M22 17.5a10 10 0 0 1 20 0v15a10 10 0 0 1-20 0v-15ZM17 31.5c0 8.3 6.7 15 15 15s15-6.7 15-15M32 46.5V55M24 55h16" stroke="url(#karaoke-gradient)" stroke-linecap="round" stroke-width="2.5"/></svg></span><small>Tomes Karaoke</small></a>
+            <a class="destination" href="https://christmas.tomes.me/" target="_blank" rel="noopener"><span class="emblem" aria-hidden="true"><svg viewBox="0 0 64 64" width="34" fill="none"><circle cx="32" cy="32" r="27" stroke="currentColor" stroke-width="2.5"/><path d="M19.4 23.4h25.2M32 23.4v25M20.5 22.5l3.5-4.8m1.5 4.8 3.1-5.1m2.6 5.1 2.4-5.1m2.6 5.1 2.4-5.1m2.6 5.1 3.1-4.8M20.5 24.3l3.5 4.8m1.5-4.8 3.1 5.1m2.6-5.1 2.4 5.1m2.6-5.1 2.4 5.1m2.6-5.1 3.1 4.8" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"/><path d="m32 8.5 1.55 4.45L38 14.5l-4.45 1.55L32 20.5l-1.55-4.45L26 14.5l4.45-1.55L32 8.5Z" fill="currentColor"/></svg></span><small>Tomes Christmas</small></a>
+          </div>
+          <div class="line"></div>
+          <div class="quiet-links"><a href="https://mail.google.com/" target="_blank" rel="noopener">Mail</a><a href="https://calendar.google.com/" target="_blank" rel="noopener">Calendar</a></div>
+          <button class="close" id="close" type="button">Close <span aria-hidden="true">×</span></button>
+        </nav></div></div>
       </div>
-
-      <div class="title">tomes.me</div>
-      <div class="whisper" id="whisper"> </div>
-
-      <div class="panel" id="panel" aria-hidden="true">
-        <div class="panelRow">
-          <!-- These are safe: they just go to Google login pages. No personal info exposed. -->
-          <a class="chip" href="https://mail.google.com/" target="_blank" rel="noopener">
-            <span class="dot" aria-hidden="true"></span> Mail
-          </a>
-          <a class="chip" href="https://calendar.google.com/" target="_blank" rel="noopener">
-            <span class="dot" aria-hidden="true"></span> Calendar
-          </a>
-        </div>
-
-        <!-- Scalable “Trips / Planning” row -->
-        <div class="panelLabel">Trips</div>
-        <div class="panelRow">
-          <a class="chip chip--accent" href="/snow/" rel="noopener">
-            <span class="dot" aria-hidden="true"></span> Avoriaz 2026
-          </a>
-          <!-- Future pills:
-          <a class="chip" href="/summer/" rel="noopener"><span class="dot" aria-hidden="true"></span> Summer 2026</a>
-          -->
-        </div>
-
-        <div class="hint"> </div>
-      </div>
-    </div>
-  </div>
-
+    </section>
+  </main>
   <script>
-    (function(){
-      const sigil = document.getElementById("sigil");
-      const panel = document.getElementById("panel");
-      const whisper = document.getElementById("whisper");
-      const parallaxRoot = document.getElementById("parallaxRoot");
+    (() => {
+      const page = document.querySelector('#page');
+      const trigger = document.querySelector('#trigger');
+      const navigation = document.querySelector('#navigation');
+      const close = document.querySelector('#close');
+      const prompt = document.querySelector('#prompt');
+      const focusable = () => [...navigation.querySelectorAll('a, button:not([disabled])')];
+      const isOpen = () => page.classList.contains('is-open');
 
-      const HOLD_MS = 1200;
-      let holdTimer = null;
-      let isOpen = false;
-
-      const whispers = [
-        " ",
-        "welcome.",
-        " ",
-        " ",
-        "breathe.",
-        " ",
-        " ",
-        "you’re here."
-      ];
-
-      function setWhisper(){
-        const h = new Date().getHours();
-        // Keep it abstract; just a gentle hint of time without saying it.
-        const base = (h < 6 || h >= 21) ? "quiet." : (h < 12 ? "morning." : (h < 18 ? "afternoon." : "evening."));
-        // Rotate a tiny set of phrases; keep it sparse.
-        const pick = Math.random() < 0.55 ? " " : (Math.random() < 0.5 ? base : whispers[Math.floor(Math.random()*whispers.length)]);
-        whisper.textContent = pick;
-        whisper.style.opacity = pick.trim() ? "1" : ".55";
+      function setNavigation(open) {
+        page.classList.toggle('is-open', open);
+        trigger.setAttribute('aria-expanded', String(open));
+        navigation.setAttribute('aria-hidden', String(!open));
+        navigation.inert = !open;
+        prompt.innerHTML = open ? 'A few places to return to.' : '<strong>Tap the ring</strong> to find your way in.';
+        if (open) window.setTimeout(() => focusable()[0]?.focus(), 350);
+        else trigger.focus();
       }
 
-      setWhisper();
-      setInterval(setWhisper, 9000);
-
-      function openPanel(){
-        isOpen = true;
-        panel.classList.add("show");
-        panel.setAttribute("aria-hidden","false");
-        // Keep it non-instructional; family will learn the gesture.
-        panel.querySelector(".hint").textContent = " ";
-      }
-
-      function closePanel(){
-        isOpen = false;
-        panel.classList.remove("show");
-        panel.setAttribute("aria-hidden","true");
-        panel.querySelector(".hint").textContent = " ";
-      }
-
-      function togglePanel(){
-        isOpen ? closePanel() : openPanel();
-      }
-
-      function startHold(){
-        if (holdTimer) return;
-        // If reduced motion, act instantly
-        const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const delay = reduce ? 0 : HOLD_MS;
-
-        holdTimer = window.setTimeout(() => {
-          holdTimer = null;
-          openPanel();
-        }, delay);
-      }
-
-      function cancelHold(){
-        if (!holdTimer) return;
-        clearTimeout(holdTimer);
-        holdTimer = null;
-      }
-
-      // Press & hold (touch + mouse)
-      sigil.addEventListener("pointerdown", (e) => {
-        // allow click to toggle if already open
-        if (isOpen) {
-          togglePanel();
-          return;
-        }
-        startHold();
+      trigger.addEventListener('click', () => setNavigation(!isOpen()));
+      close.addEventListener('click', () => setNavigation(false));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && isOpen()) setNavigation(false);
+        if (event.key !== 'Tab' || !isOpen()) return;
+        const items = focusable();
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
       });
-
-      sigil.addEventListener("pointerup", () => cancelHold());
-      sigil.addEventListener("pointercancel", () => cancelHold());
-      sigil.addEventListener("pointerleave", () => cancelHold());
-
-      // Long-hover (desktop): start hold on hover as well
-      sigil.addEventListener("mouseenter", () => { if (!isOpen) startHold(); });
-      sigil.addEventListener("mouseleave", () => cancelHold());
-
-      // Keyboard: "." toggles, Enter toggles when focused
-      window.addEventListener("keydown", (e) => {
-        if (e.key === ".") togglePanel();
-        if ((e.key === "Enter" || e.key === " ") && document.activeElement === sigil) {
-          e.preventDefault();
-          togglePanel();
-        }
-        if (e.key === "Escape") closePanel();
+      document.addEventListener('pointerdown', (event) => {
+        if (isOpen() && !event.target.closest('#navigation, #trigger')) setNavigation(false);
       });
-
-      // Click outside closes (but only if open)
-      window.addEventListener("pointerdown", (e) => {
-        if (!isOpen) return;
-        const within = e.target.closest("#panel") || e.target.closest("#sigil");
-        if (!within) closePanel();
-      });
-
-      // Light parallax
-      window.addEventListener("pointermove", (e) => {
-        const w = window.innerWidth, h = window.innerHeight;
-        const nx = (e.clientX / w) - 0.5;
-        const ny = (e.clientY / h) - 0.5;
-        const px = Math.max(-10, Math.min(10, nx * 12));
-        const py = Math.max(-10, Math.min(10, ny * 12));
-        parallaxRoot.style.setProperty("--px", px.toFixed(2) + "px");
-        parallaxRoot.style.setProperty("--py", py.toFixed(2) + "px");
-      }, { passive: true });
     })();
   </script>
 </body>
 </html>
-
