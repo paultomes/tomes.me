@@ -3,5 +3,6 @@
   <rect width="512" height="512" rx="112" fill="url(#sky)"/>
   <circle cx="256" cy="256" r="162" stroke="#EAF5FA" stroke-width="12"/>
   <path d="m116 343 98-155 69 96 42-64 75 123H116Z" stroke="#EAF5FA" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"/>
+  <path d="M256 208v102M211 244h90" stroke="#9BDCF1" stroke-linecap="round" stroke-width="12"/>
   <circle cx="338" cy="145" r="22" fill="#F1AE65"/>
 </svg>

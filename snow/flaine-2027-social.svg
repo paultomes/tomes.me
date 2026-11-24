@@ -8,6 +8,7 @@
   <path d="m591 630 134-228 90 123 53-81 186 186H591Z" fill="#E8F7FC" opacity=".78"/>
   <circle cx="95" cy="91" r="49" stroke="#EAF5FA" stroke-width="4"/>
   <path d="m52 119 29-46 21 29 12-18 23 35H52Z" stroke="#EAF5FA" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+  <path d="M95 80v33M81 91h28" stroke="#9BDCF1" stroke-linecap="round" stroke-width="5"/>
   <circle cx="120" cy="61" r="7" fill="#F1AE65"/>
   <text x="164" y="87" fill="#EAF5FA" font-family="Arial, Helvetica, sans-serif" font-size="43" font-weight="700" letter-spacing="-2">FLAINE / 27</text>
   <text x="166" y="118" fill="#AAC0D0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" letter-spacing="2">THE GRAND MASSIF</text>
