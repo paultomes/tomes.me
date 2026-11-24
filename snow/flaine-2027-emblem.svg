@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs><linearGradient id="sky" x1="64" y1="42" x2="438" y2="472" gradientUnits="userSpaceOnUse"><stop stop-color="#133b5a"/><stop offset="1" stop-color="#061623"/></linearGradient></defs>
+  <rect width="512" height="512" rx="112" fill="url(#sky)"/>
+  <circle cx="256" cy="256" r="162" stroke="#EAF5FA" stroke-width="12"/>
+  <path d="m116 343 98-155 69 96 42-64 75 123H116Z" stroke="#EAF5FA" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"/>
+  <circle cx="338" cy="145" r="22" fill="#F1AE65"/>
+</svg>

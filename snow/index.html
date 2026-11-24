@@ -1,382 +1,49 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Snow — tomes.me</title>
-  <meta name="robots" content="noindex" />
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="Flaine 2027 — a Grand Massif ski trip companion.">
+  <meta name="theme-color" content="#071827">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex,noimageindex">
+  <title>Flaine 2027 · tomes.me</title>
+  <link rel="icon" type="image/svg+xml" href="/snow/flaine-2027-emblem.svg">
+  <link rel="icon" type="image/png" sizes="512x512" href="/snow/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/snow/apple-touch-icon.png">
+  <meta property="og:title" content="Flaine 2027 · tomes.me">
+  <meta property="og:description" content="A Grand Massif ski trip companion.">
+  <meta property="og:image" content="https://tomes.me/snow/flaine-2027-social.png">
+  <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Flaine 2027 · tomes.me">
+  <meta name="twitter:description" content="A Grand Massif ski trip companion.">
+  <meta name="twitter:image" content="https://tomes.me/snow/flaine-2027-social.png">
   <style>
-    :root{
-      --bg:#fbfcff; --ink:#0b1220; --muted:rgba(11,18,32,.62);
-      --card:rgba(255,255,255,.60); --stroke:rgba(11,18,32,.08);
-      --shadow:0 18px 55px rgba(11,18,32,.10); --r:18px;
-    }
-    @media (prefers-color-scheme: dark){
-      :root{
-        --bg:#070a12; --ink:#eef3ff; --muted:rgba(238,243,255,.62);
-        --card:rgba(18,24,38,.55); --stroke:rgba(238,243,255,.10);
-        --shadow:0 22px 70px rgba(0,0,0,.55);
-      }
-    }
-    *{ box-sizing:border-box; }
-
-    body{
-      margin:0;
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-      color: var(--ink);
-      padding: 28px 18px;
-      background: none;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    /* Background layer */
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      background:
-        linear-gradient(rgba(255,255,255,.65), rgba(255,255,255,.65)),
-        url("snowhero.jpg") center/cover no-repeat;
-      filter: blur(6px) saturate(105%);
-      transform: scale(1.05);
-      z-index:-2;
-    }
-
-    /* Dark mode overlay (same image filename) */
-    @media (prefers-color-scheme: dark){
-      body::before{
-        background:
-          linear-gradient(rgba(7,10,18,.75), rgba(7,10,18,.75)),
-          url("snowhero.jpg") center/cover no-repeat;
-      }
-    }
-
-    .wrap{ width:min(860px, 94vw); display:grid; gap:14px; }
-    .card{
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: var(--r);
-      box-shadow: var(--shadow);
-      padding: 18px;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-    }
-    .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
-    .title{ font-size: 14px; letter-spacing:.10em; text-transform: lowercase; color: var(--muted); }
-    .small{ color: var(--muted); font-size: 12px; line-height: 1.45; }
-
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding: 12px 18px;
-      border-radius: 999px;
-      text-decoration:none;
-      font-weight: 500;
-      letter-spacing: .02em;
-      color: #fff;
-      background: linear-gradient(135deg, #4f96ff, #5fd4ff);
-      border: none;
-      box-shadow: 0 10px 30px rgba(79,150,255,.35);
-      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
-      white-space: nowrap;
-    }
-
-    .btn:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 14px 36px rgba(79,150,255,.45);
-      filter: brightness(1.05);
-    }
-
-    .forecast{
-      display:grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .fday{
-      padding: 12px;
-      border-radius: 16px;
-      border: 1px solid var(--stroke);
-      background: rgba(255,255,255,.35);
-    }
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.55);
-      border: 1px solid var(--stroke);
-      text-decoration: none;
-      color: rgba(11,18,32,.78);
-      font-size: 13px;
-      transition: transform .12s ease, border-color .12s ease, background .12s ease;
-    }
-    
-    .pill:hover{
-      transform: translateY(-1px);
-      border-color: rgba(94,160,255,.28);
-      background: rgba(255,255,255,.70);
-    }
-
-    .topbar{
-      display:flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .badgeRow{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      min-width:0;
-    }
-    .badge{
-      width: 52px;
-      height: 52px;
-      border-radius: 999px;       
-      object-fit: cover;
-      border: 1px solid var(--stroke);
-      box-shadow: 0 10px 30px rgba(11,18,32,.10);
-      flex-shrink:0;
-    }
-
-    @media (prefers-color-scheme: dark){
-      .fday{ background: rgba(255,255,255,.04); }
-    }
-
-    .fday b{ display:block; margin-bottom: 6px; font-size: 14px; }
-    .frow{ display:flex; justify-content:space-between; gap:10px; }
-    .frow span{ color: var(--muted); font-size: 12px; }
-
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
-      margin-top: 8px;
-    }
-    .tile{
-      grid-column: span 4;
-      padding: 14px;
-      border-radius: 16px;
-      border: 1px solid var(--stroke);
-      background: rgba(255,255,255,.35);
-    }
-
-    @media (prefers-color-scheme: dark){
-      .pill{
-        background: rgba(255,255,255,.06);
-        border: 1px solid rgba(238,243,255,.12);
-        color: rgba(238,243,255,.78);
-      }
-      .pill:hover{
-        border-color: rgba(94,160,255,.30);
-        background: rgba(255,255,255,.09);}
-    }
-
-    
-    @media (prefers-color-scheme: dark){ .tile{ background: rgba(255,255,255,.04);} }
-    .tile b{ display:block; font-size: 20px; margin-bottom: 4px; }
-    .tile span{ color: var(--muted); font-size: 13px; }
-
-    .subgrid{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
-    }
-    .subgrid .tile{ grid-column: span 6; }
-
-    @media (max-width: 820px){
-      .tile{ grid-column: span 12; }
-      .subgrid .tile{ grid-column: span 12; }
-      .forecast{ grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (prefers-color-scheme: dark){
-      .badge{
-        box-shadow: 0 18px 50px rgba(0,0,0,.35);
-      }
-    }
-
-    @media (max-width: 640px){
-      .topbar{
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .btn{
-        align-self: stretch;
-        text-align:center;
-      }
-    }
+    :root{--navy:#071827;--deep:#05131f;--ink:#eff7fb;--muted:#a9bfce;--ice:#9bdcf1;--warm:#f1ae65;--line:rgba(165,211,231,.28)}*{box-sizing:border-box}html{background:var(--navy);scroll-behavior:smooth}body{min-width:320px;margin:0;overflow-x:hidden;background:var(--navy);color:var(--ink);font:16px/1.45 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}.hero{min-height:100svh;position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(4,16,29,.2),var(--navy) 89%),url('/snow/assets/flaine-2027-hero.png') center/cover}.hero:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(3,15,29,.55),rgba(3,15,29,.02) 48%,var(--navy) 97%)}.container{width:min(1180px,calc(100% - 40px));margin:auto;position:relative;z-index:1}.masthead{min-height:98px;display:flex;justify-content:space-between;align-items:center}.identity{display:flex;align-items:center;gap:12px;font-size:1.22rem;font-weight:680;letter-spacing:-.04em}.emblem{width:48px;height:48px;display:grid;place-items:center;border:1px solid #dcedf8;border-radius:50%}.identity small{display:block;color:#aac0d0;font-size:.62em;font-weight:500;letter-spacing:.07em}.masthead a{color:var(--ink);font-size:.76rem;font-weight:650;letter-spacing:.12em;text-decoration:none;text-transform:uppercase}.hero-content{min-height:calc(100svh - 98px);display:grid;align-content:end;padding-bottom:clamp(38px,8vh,94px)}.eyebrow{color:var(--warm);font-size:.75rem;font-weight:650;letter-spacing:.14em;text-transform:uppercase}h1{max-width:840px;margin:.38rem 0 1.15rem;font-size:clamp(3.25rem,8.7vw,7.8rem);line-height:.87;letter-spacing:-.085em}h1 span{display:block;color:var(--ice)}.lede{max-width:470px;margin:0;color:#d4e0e9;font-size:1.05rem}.departure{display:flex;flex-wrap:wrap;align-items:center;gap:26px;margin-top:30px}.countdown{display:flex;align-items:baseline;gap:10px}.countdown b{font-size:clamp(3.2rem,6vw,5.3rem);line-height:.9;letter-spacing:-.09em}.countdown span{color:var(--muted);font-size:.9rem}.sheet{padding:13px 18px;border:1px solid rgba(221,240,251,.57);border-radius:10px;background:rgba(7,24,39,.54);color:var(--ink);font-weight:650;text-decoration:none;backdrop-filter:blur(10px)}.sheet:hover,.sheet:focus-visible{background:#eaf3f9;color:#0a263b;outline:none}.report{padding:80px 0 0;background:var(--navy)}.report-heading{display:flex;justify-content:space-between;gap:28px;align-items:end}h2{margin:0;font-size:clamp(2.25rem,4.8vw,4.5rem);line-height:.9;letter-spacing:-.075em}.provenance{max-width:380px;margin:0;color:var(--muted);font-size:.82rem}.readings{display:grid;grid-template-columns:repeat(4,1fr);margin-top:34px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.reading{min-height:142px;padding:23px 16px;border-right:1px solid var(--line)}.reading:last-child{border-right:0}.reading b{display:block;font-size:clamp(2rem,3vw,3rem);letter-spacing:-.08em}.reading span{color:var(--muted);font-size:.8rem}.forecast{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin:33px 0 0;padding:0;list-style:none}.forecast li{display:grid;gap:4px;padding:12px 0;border-top:1px solid var(--line)}.forecast small{color:var(--muted)}.resources{display:grid;grid-template-columns:repeat(2,1fr);gap:0 46px;padding:72px 0 86px}.resources h3{grid-column:1/-1;margin:0 0 18px;color:var(--warm);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase}.resources a{display:flex;justify-content:space-between;gap:18px;padding:18px 0;border-top:1px solid var(--line);color:var(--ink);font-size:1.06rem;text-decoration:none}.resources a:hover,.resources a:focus-visible{color:var(--ice);outline:none}.resources a span{color:var(--muted)}.note{padding:0 0 36px;color:var(--muted);font-size:.76rem}@media(max-width:720px){.container{width:min(100% - 32px,1180px)}.masthead{min-height:94px}.masthead>a{display:none}h1{max-width:340px;font-size:clamp(2.55rem,12.5vw,3.6rem)}.lede{max-width:330px;font-size:1rem}.departure{gap:19px}.report{padding-top:56px}.report-heading{display:block}.provenance{margin-top:16px}.readings{grid-template-columns:1fr 1fr}.reading{min-height:118px}.reading:nth-child(2){border-right:0}.reading:nth-child(-n+2){border-bottom:1px solid var(--line)}.forecast{grid-template-columns:1fr 1fr}.resources{grid-template-columns:1fr;padding:55px 0 62px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
   </style>
 </head>
-
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div class="topbar">
-        <div class="badgeRow">
-          <img class="badge" src="avoriaz-2026-logo.png" alt="Avoriaz 2026 logo">
-          <div>
-            <div class="title">Avoriaz 2026</div>
-            <div class="small">Weather + countdowns + private plan link.</div>
-          </div>
-        </div>
-        
-        <a class="btn"
-          href="https://docs.google.com/spreadsheets/d/177XWoZ8xvHnpbnz4HpX3-E2BugvdC3K5wiNWQedjW5g"
-          target="_blank" rel="noopener">
-          Add your rental details
-        </a>
-      </div>
-    </div>
-    <div style="margin-top:10px; display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
-      <a class="pill" href="https://www.lafoliedouce.com/en/home-avoriaz.html" target="_blank" rel="noopener">La Folie Douce</a>
-      <a class="pill" href="https://www.avoriaz.com/en/webcam/" target="_blank" rel="noopener">Avoriaz Webcams</a>
-      <a class="pill" href="https://apps.apple.com/gb/app/avoriaz-up-down/id1482733392" target="_blank" rel="noopener">Avoriaz Up&Down app</a>
-    </div>
-
-    <div class="card">
-      <div class="row">
-        <div>
-          <b style="font-size:18px;">Avoriaz</b>
-          <div class="small" id="updated">Loading weather…</div>
-        </div>
-        <div class="small">All dates shown in your local time.</div>
-      </div>
-
-      <div class="grid">
-        <div class="tile">
-          <b id="temp">—</b>
-          <span>Temperature</span>
-        </div>
-        <div class="tile">
-          <b id="wind">—</b>
-          <span>Wind</span>
-        </div>
-        <div class="tile">
-          <b id="snow">—</b>
-          <span>Snowfall (today)</span>
-        </div>
-      </div>
-
-      <div class="subgrid" style="margin-top:12px;">
-        <div class="tile">
-          <b id="daysToTrip">—</b>
-          <span>days until holiday (28 Mar 2026)</span>
-        </div>
-        <div class="tile">
-          <b id="daysToDeadline">—</b>
-          <span>days left for 10% ski discount (book by 22 Feb 2026)</span>
-        </div>
-      </div>
-
-      <div class="forecast" id="forecast"></div>
-
-      <div class="small" style="margin-top:10px;">
-        Weather data via Open-Meteo (no tracking). The plan sheet remains private behind Google login.
-      </div>
-    </div>
-  </div>
-
+  <main>
+    <section class="hero"><div class="container">
+      <header class="masthead"><div class="identity"><span class="emblem" aria-hidden="true"><svg viewBox="0 0 50 50" width="34" fill="none"><path d="M5 38 20 14l10 14 6-9 10 19H5Z" stroke="currentColor" stroke-width="1.5"/><circle cx="37" cy="12" r="3" fill="#f1ae65"/></svg></span><span>FLAINE / 27<small>THE GRAND MASSIF</small></span></div><a href="#conditions">Mountain report</a></header>
+      <div class="hero-content"><div class="eyebrow">Saturday, 13 February 2027 · French Alps</div><h1>Back to the <span>mountains.</span></h1><p class="lede">One week in the high country: snow, long lunches, good company and room to roam.</p><div class="departure"><div class="countdown"><b data-countdown>—</b><span>days until<br>we leave</span></div><a class="sheet" data-sheet target="_blank" rel="noopener">Sort your ski hire</a></div></div>
+    </div></section>
+    <section class="report" id="conditions"><div class="container">
+      <header class="report-heading"><h2>The mountain<br>report.</h2><p class="provenance" data-weather="updated" aria-live="polite">Fetching the latest model conditions…</p></header>
+      <div class="readings"><div class="reading"><b data-weather="resort-temp">—</b><span>Flaine · 1,600 m</span></div><div class="reading"><b data-weather="summit-temp">—</b><span>Summit · 2,500 m</span></div><div class="reading"><b data-weather="wind">—</b><span>Upper-mountain wind</span></div><div class="reading"><b data-weather="snowfall">—</b><span>Forecast snow today</span></div></div>
+      <ul class="forecast" data-forecast aria-label="Five-day model forecast"></ul>
+      <nav class="resources" aria-label="Official Flaine and Grand Massif resources"><h3>Plan the day</h3><a data-weather-opening target="_blank" rel="noopener">Official weather & opening report <span>↗</span></a><a data-live-status target="_blank" rel="noopener">Piste & lift status <span>↗</span></a><a data-webcams target="_blank" rel="noopener">Flaine webcams <span>↗</span></a><a data-piste-map target="_blank" rel="noopener">Grand Massif piste map <span>↗</span></a><a data-ski-passes target="_blank" rel="noopener">Official ski passes <span>↗</span></a><a data-app target="_blank" rel="noopener">Grand Massif app <span>↗</span></a></nav>
+      <p class="note">Weather is a lightweight Open‑Meteo model forecast at resort and upper-mountain elevations, not an official mountain observation. Use the official report for operational conditions.</p>
+    </div></section>
+  </main>
+  <script src="/snow/trip.config.js"></script>
   <script>
-    // --- Countdown helpers ---
-    function startOfLocalDay(d){
-      return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    }
-    function daysUntilLocal(yyyy, mm, dd){
-      // mm is 1-based in this helper
-      const today = startOfLocalDay(new Date());
-      const target = new Date(yyyy, mm - 1, dd);
-      const ms = target - today;
-      return Math.ceil(ms / 86400000); // inclusive countdown feel
-    }
-    function fmtDays(n){
-      if (n > 0) return String(n);
-      if (n === 0) return "0";
-      return "passed";
-    }
-
-    // Holiday starts: 28 March 2026
-    const toTrip = daysUntilLocal(2026, 3, 28);
-    document.getElementById("daysToTrip").textContent = fmtDays(toTrip);
-
-    // Discount deadline: 22 February 2026
-    const toDeadline = daysUntilLocal(2026, 2, 22);
-    document.getElementById("daysToDeadline").textContent = fmtDays(toDeadline);
-
-    // --- Weather (Avoriaz approx coords) ---
-    const lat = 46.1878, lon = 6.7717;
-    const url =
-      "https://api.open-meteo.com/v1/forecast"
-      + `?latitude=${lat}&longitude=${lon}`
-      + "&current=temperature_2m,wind_speed_10m"
-      + "&daily=temperature_2m_max,temperature_2m_min,snowfall_sum"
-      + "&timezone=Europe%2FParis";
-
-    function fmt(n, unit){
-      return (n === null || n === undefined || Number.isNaN(n)) ? "—" : `${Math.round(n)}${unit}`;
-    }
-    function fmtInt(n, unit){
-      return (n === null || n === undefined || Number.isNaN(n)) ? "—" : `${Math.round(n)}${unit}`;
-    }
-
-    fetch(url)
-      .then(r => r.ok ? r.json() : Promise.reject(new Error("Weather fetch failed")))
-      .then(data => {
-        const cur = data.current || {};
-        const daily = data.daily || {};
-
-        document.getElementById("temp").textContent = fmt(cur.temperature_2m, "°");
-        document.getElementById("wind").textContent = fmt(cur.wind_speed_10m, " km/h");
-
-        const snowToday = (daily.snowfall_sum && daily.snowfall_sum.length) ? daily.snowfall_sum[0] : 0;
-        document.getElementById("snow").textContent = `${(snowToday || 0).toFixed(1)} cm`;
-
-        const updated = cur.time ? new Date(cur.time) : new Date();
-        document.getElementById("updated").textContent =
-          `Updated ${updated.toLocaleString([], { weekday:"short", hour:"2-digit", minute:"2-digit" })}`;
-
-        // --- 5-day forecast (high/low + snow) ---
-        const days  = (daily.time || []).slice(0, 5);
-        const maxs  = (daily.temperature_2m_max || []).slice(0, 5);
-        const mins  = (daily.temperature_2m_min || []).slice(0, 5);
-        const snows = (daily.snowfall_sum || []).slice(0, 5);
-
-        const forecastEl = document.getElementById("forecast");
-        if (forecastEl && days.length){
-          forecastEl.innerHTML = days.map((t, i) => {
-            const d = new Date(t);
-            const day = (i === 0) ? "Today" : d.toLocaleDateString([], { weekday: "short" });
-            const hi = maxs[i];
-            const lo = mins[i];
-            const s  = snows[i] ?? 0;
-
-            return `
-              <div class="fday">
-                <b>${day}</b>
-                <div class="frow"><span>High</span><span>${fmtInt(hi, "°")}</span></div>
-                <div class="frow"><span>Low</span><span>${fmtInt(lo, "°")}</span></div>
-                <div class="frow"><span>Snow</span><span>${(s || 0).toFixed(1)} cm</span></div>
-              </div>
-            `;
-          }).join("");
-        }
-      })
-      .catch(() => {
-        document.getElementById("updated").textContent = "Weather unavailable right now.";
-        const forecastEl = document.getElementById("forecast");
-        if (forecastEl) forecastEl.innerHTML = "";
-      });
+    const trip = SKI_TRIP;
+    document.querySelector('[data-sheet]').href = trip.skiHireSheetUrl;
+    Object.entries(trip.resources).forEach(([key, url]) => document.querySelectorAll(`[data-${key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)}]`).forEach((element) => { element.href = url; }));
+    initialiseSkiCountdown();
+    initialiseSkiTrip();
   </script>
 </body>
 </html>

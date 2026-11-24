@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#071827">
+  <title>Flaine / 27 — Summit Log, refined</title>
+  <style>
+    :root { --navy:#071827; --deep:#05131f; --ink:#eff7fb; --muted:#a9bfce; --ice:#9bdcf1; --warm:#f1ae65; --line:rgba(165,211,231,.28); }
+    * { box-sizing:border-box; }
+    html { background:var(--navy); scroll-behavior:smooth; }
+    body { min-width:320px; margin:0; overflow-x:hidden; background:var(--navy); color:var(--ink); font:16px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    .hero { min-height:100svh; position:relative; overflow:hidden; background:linear-gradient(180deg,rgba(4,16,29,.20),var(--navy) 89%),url('../assets/alpine-concept.png') center/cover; }
+    .hero::after { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,rgba(3,15,29,.55),rgba(3,15,29,.02) 48%,var(--navy) 97%); }
+    .container { width:min(1180px,calc(100% - 40px)); margin:auto; position:relative; z-index:1; }
+    .masthead { min-height:98px; display:flex; justify-content:space-between; align-items:center; }
+    .identity { display:flex; align-items:center; gap:12px; font-size:1.22rem; font-weight:680; letter-spacing:-.04em; }
+    .emblem { width:48px; height:48px; display:grid; place-items:center; border:1px solid #dcedf8; border-radius:50%; }
+    .identity small { display:block; color:#aac0d0; font-size:.62em; font-weight:500; letter-spacing:.07em; }
+    .masthead a { color:var(--ink); font-size:.76rem; font-weight:650; letter-spacing:.12em; text-decoration:none; text-transform:uppercase; }
+    .hero-content { min-height:calc(100svh - 98px); display:grid; align-content:end; padding-bottom:clamp(38px,8vh,94px); }
+    .eyebrow { color:var(--warm); font-size:.75rem; font-weight:650; letter-spacing:.14em; text-transform:uppercase; }
+    h1 { max-width:840px; margin:.38rem 0 1.15rem; font-size:clamp(3.25rem,8.7vw,7.8rem); line-height:.87; letter-spacing:-.085em; }
+    h1 span { display:block; color:var(--ice); }
+    .lede { max-width:470px; margin:0; color:#d4e0e9; font-size:1.05rem; }
+    .departure { display:flex; flex-wrap:wrap; align-items:center; gap:26px; margin-top:30px; }
+    .countdown { display:flex; align-items:baseline; gap:10px; }
+    .countdown b { font-size:clamp(3.2rem,6vw,5.3rem); line-height:.9; letter-spacing:-.09em; }
+    .countdown span { color:var(--muted); font-size:.9rem; }
+    .sheet { padding:13px 18px; border:1px solid rgba(221,240,251,.57); border-radius:10px; background:rgba(7,24,39,.54); color:var(--ink); font-weight:650; text-decoration:none; backdrop-filter:blur(10px); }
+    .sheet:hover,.sheet:focus-visible { background:#eaf3f9; color:#0a263b; outline:none; }
+    .report { padding:80px 0 0; background:var(--navy); }
+    .report-heading { display:flex; justify-content:space-between; gap:28px; align-items:end; }
+    h2 { margin:0; font-size:clamp(2.25rem,4.8vw,4.5rem); line-height:.9; letter-spacing:-.075em; }
+    .provenance { max-width:380px; margin:0; color:var(--muted); font-size:.82rem; }
+    .readings { display:grid; grid-template-columns:repeat(4,1fr); margin-top:34px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .reading { min-height:142px; padding:23px 16px; border-right:1px solid var(--line); }
+    .reading:last-child { border-right:0; }
+    .reading b { display:block; font-size:clamp(2rem,3vw,3rem); letter-spacing:-.08em; }
+    .reading span { color:var(--muted); font-size:.8rem; }
+    .forecast { display:grid; grid-template-columns:repeat(5,1fr); gap:13px; margin:33px 0 0; padding:0; list-style:none; }
+    .forecast li { display:grid; gap:4px; padding:12px 0; border-top:1px solid var(--line); }
+    .forecast small { color:var(--muted); }
+    .resources { display:grid; grid-template-columns:repeat(2,1fr); gap:0 46px; padding:72px 0 86px; }
+    .resources h3 { grid-column:1/-1; margin:0 0 18px; color:var(--warm); font-size:.75rem; letter-spacing:.14em; text-transform:uppercase; }
+    .resources a { display:flex; justify-content:space-between; gap:18px; padding:18px 0; border-top:1px solid var(--line); color:var(--ink); font-size:1.06rem; text-decoration:none; }
+    .resources a:hover,.resources a:focus-visible { color:var(--ice); outline:none; }
+    .resources a span { color:var(--muted); }
+    @media (max-width:720px) {
+      .container { width:min(100% - 32px,1180px); }
+      .masthead { min-height:94px; }.masthead > a { display:none; }
+      h1 { max-width:340px; font-size:clamp(2.55rem,12.5vw,3.6rem); }
+      .lede { max-width:330px; font-size:1rem; }
+      .departure { gap:19px; }.report { padding-top:56px; }
+      .report-heading { display:block; }.provenance { margin-top:16px; }
+      .readings { grid-template-columns:1fr 1fr; }.reading { min-height:118px; }.reading:nth-child(2) { border-right:0; }.reading:nth-child(-n+2) { border-bottom:1px solid var(--line); }
+      .forecast { grid-template-columns:1fr 1fr; }.resources { grid-template-columns:1fr; padding:55px 0 62px; }
+    }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation:none!important; transition:none!important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <header class="masthead">
+          <div class="identity"><span class="emblem" aria-hidden="true"><svg viewBox="0 0 50 50" width="34" fill="none"><path d="M5 38 20 14l10 14 6-9 10 19H5Z" stroke="currentColor" stroke-width="1.5"/><circle cx="37" cy="12" r="3" fill="#f1ae65"/></svg></span><span>FLAINE / 27<small>THE GRAND MASSIF</small></span></div>
+          <a href="#conditions">Mountain report</a>
+        </header>
+        <div class="hero-content">
+          <div class="eyebrow">Saturday, 13 February 2027 · French Alps</div>
+          <h1>Back to the <span>mountains.</span></h1>
+          <p class="lede">One week in the high country: snow, long lunches, good company and room to roam.</p>
+          <div class="departure"><div class="countdown"><b data-countdown>—</b><span>days until<br>we leave</span></div><a class="sheet" data-sheet target="_blank" rel="noopener">Sort your ski hire</a></div>
+        </div>
+      </div>
+    </section>
+    <section class="report" id="conditions"><div class="container">
+      <header class="report-heading"><h2>The mountain<br>report.</h2><p class="provenance" data-weather="updated">Fetching the latest model conditions…</p></header>
+      <div class="readings">
+        <div class="reading"><b data-weather="resort-temp">—</b><span>Flaine · 1,600 m</span></div><div class="reading"><b data-weather="summit-temp">—</b><span>Summit · 2,500 m</span></div><div class="reading"><b data-weather="wind">—</b><span>Upper-mountain wind</span></div><div class="reading"><b data-weather="snowfall">—</b><span>Forecast snow today</span></div>
+      </div>
+      <ul class="forecast" data-forecast></ul>
+      <nav class="resources" aria-label="Official Flaine and Grand Massif resources"><h3>Plan the day</h3>
+        <a data-weather-opening target="_blank" rel="noopener">Official weather & opening report <span>↗</span></a><a data-live-status target="_blank" rel="noopener">Piste & lift status <span>↗</span></a><a data-webcams target="_blank" rel="noopener">Flaine webcams <span>↗</span></a><a data-piste-map target="_blank" rel="noopener">Grand Massif piste map <span>↗</span></a><a data-ski-passes target="_blank" rel="noopener">Official ski passes <span>↗</span></a><a data-app target="_blank" rel="noopener">Grand Massif app <span>↗</span></a>
+      </nav>
+    </div></section>
+  </main>
+  <script src="../ski-trip.config.js"></script>
+  <script>
+    const config = FLAINE_2027;
+    document.querySelector('[data-sheet]').href = config.sheetUrl;
+    Object.entries(config.resources).forEach(([key, url]) => document.querySelectorAll(`[data-${key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)}]`).forEach((element) => { element.href = url; }));
+    initialiseFlaineCountdown();
+    initialiseFlaineWeather();
+  </script>
+</body>
+</html>
