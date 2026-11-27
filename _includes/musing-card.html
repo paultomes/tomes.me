@@ -1,0 +1,8 @@
+<li>
+  <a class="musing-card" href="{{ musing.url }}">
+    <p class="musing-number">Musings {{ musing.number }}</p>
+    <h3 class="musing-card-title">{{ musing.title | escape }}</h3>
+    <p class="musing-card-description">{{ musing.excerpt | escape }}</p>
+    <p class="musing-card-meta">{% if include.show_author %}{{ musing.author_label | escape }} · {% endif %}{{ musing.date | date: '%-d %B %Y' }}</p>
+  </a>
+</li>

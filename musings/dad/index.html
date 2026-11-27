@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 
 <html lang="en-GB">
@@ -114,50 +116,10 @@ content="Letters and reflections from Dad to Adam, Daniel, Jack and Phoebe, writ
   </h2>
 
   <ol class="musing-list">
-    <li>
-      <a
-        class="musing-card"
-        href="/musings/dad/2026/the-inner-game-of-life/"
-      >
-        <p class="musing-number">Musings 2</p>
-
-        <h3 class="musing-card-title">
-          The Inner Game of Life
-        </h3>
-
-        <p class="musing-card-description">
-          A reflection on performance, learning and enjoyment, and the art of
-          being present in everyday life.
-        </p>
-
-        <p class="musing-card-meta">
-          27 November 2026
-        </p>
-      </a>
-    </li>
-
-    <li>
-      <a
-        class="musing-card"
-        href="/musings/dad/2026/ownership-in-the-age-of-ai/"
-      >
-        <p class="musing-number">Musings 1</p>
-
-        <h3 class="musing-card-title">
-          Ownership in the Age of AI
-        </h3>
-
-        <p class="musing-card-description">
-          On intelligence becoming abundant, what may remain scarce, why
-          ownership matters and why enjoying life still matters more than
-          winning it.
-        </p>
-
-        <p class="musing-card-meta">
-          21 July 2026
-        </p>
-      </a>
-    </li>
+    {% assign musings = site.musings | where: 'author_label', 'Dad' | sort: 'date' | reverse %}
+    {% for musing in musings %}
+    {% include musing-card.html %}
+    {% endfor %}
   </ol>
 
   <p class="archive-link">

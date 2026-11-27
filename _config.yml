@@ -1,0 +1,8 @@
+url: "https://tomes.me"
+future: true
+collections:
+  musings:
+    output: true
+exclude:
+  - README.md
+  - MUSINGS.md

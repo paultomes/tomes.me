@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title | escape }} | Musings {{ page.number }} | Musings from {{ page.author_label | escape }}</title>
+  <meta name="description" content="{{ page.subtitle | escape }}">
+  <meta name="author" content="{{ page.author | escape }}">
+  <meta name="musing-number" content="{{ page.number }}">
+  <meta name="date" content="{{ page.date | date: '%Y-%m-%d' }}">
+  <meta name="year" content="{{ page.date | date: '%Y' }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Tomes Family Musings">
+  <meta property="og:title" content="{{ page.title | escape }}">
+  <meta property="og:description" content="{{ page.subtitle | escape }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:locale" content="en_GB">
+  <meta property="article:published_time" content="{{ page.date | date: '%Y-%m-%d' }}">
+  <meta property="article:author" content="{{ page.author | escape }}">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{ page.title | escape }}">
+  <meta name="twitter:description" content="{{ page.subtitle | escape }}">
+  <link rel="stylesheet" href="/assets/css/musings.css">
+</head>
+<body>
+  <main class="page">
+    {% include musings-header.html %}
+    <nav aria-label="Breadcrumb">
+      <ol class="breadcrumbs">
+        <li><a href="/">Home</a></li>
+        <li><a href="/musings/">Musings</a></li>
+        <li><a href="/musings/dad/">Dad</a></li>
+        <li><a href="/musings/dad/{{ page.date | date: '%Y' }}/">{{ page.date | date: '%Y' }}</a></li>
+        <li aria-current="page">{{ page.title | escape }}</li>
+      </ol>
+    </nav>
+    <article class="article">
+      <header class="article-header">
+        <p class="musing-number">Musings {{ page.number }}</p>
+        <h1 class="article-title">{% if page.title_emphasis %}<strong>{% endif %}{{ page.title | escape }}{% if page.title_emphasis %}</strong>{% endif %}</h1>
+        <p class="article-subtitle">{{ page.subtitle | escape }}</p>
+        <p class="article-meta">Written by {{ page.author | escape }} · <time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: '%-d %B %Y' }}</time></p>
+      </header>
+      <div class="article-body">
+        {{ content }}
+      </div>
+      <footer class="article-footer">
+        {% if page.context %}
+        <aside class="context"><strong>Context:</strong><p>{{ page.context | escape }}</p></aside>
+        {% endif %}
+        <nav class="article-pagination" aria-label="Article navigation">
+          <p><a href="/musings/dad/{{ page.date | date: '%Y' }}/">← Back to {{ page.date | date: '%Y' }}</a></p>
+        </nav>
+      </footer>
+    </article>
+    {% include musings-footer.html %}
+  </main>
+</body>
+</html>
