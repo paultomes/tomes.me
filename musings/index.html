@@ -100,6 +100,20 @@ content="A family collection of letters, reflections and ideas preserved over ti
   </div>
 </section>
 
+<section class="recent-musings" aria-labelledby="all-musings">
+  <div class="section-heading">
+    <p class="section-kicker">Latest</p>
+    <h2 id="all-musings">All musings</h2>
+  </div>
+
+  <ol class="musing-list">
+    {% assign musings = site.musings | sort: 'date' | reverse %}
+    {% for musing in musings %}
+    {% include musing-card.html show_author=true %}
+    {% endfor %}
+  </ol>
+</section>
+
 <section class="authors-section" aria-labelledby="family-authors">
   <div class="section-heading">
     <p class="section-kicker">Collections</p>
@@ -154,20 +168,6 @@ content="A family collection of letters, reflections and ideas preserved over ti
       </article>
     -->
   </div>
-</section>
-
-<section class="recent-musings" aria-labelledby="recent-musings">
-  <div class="section-heading">
-    <p class="section-kicker">Latest</p>
-    <h2 id="recent-musings">Recent musings</h2>
-  </div>
-
-  <ol class="musing-list">
-    {% assign musings = site.musings | sort: 'date' | reverse %}
-    {% for musing in musings %}
-    {% include musing-card.html show_author=true %}
-    {% endfor %}
-  </ol>
 </section>
 
 <aside class="context">
